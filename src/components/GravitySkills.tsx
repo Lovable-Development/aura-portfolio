@@ -71,10 +71,10 @@ const GravitySkills = () => {
       Matter.Bodies.rectangle(width / 2, -wallThickness / 2, width + wallThickness * 2, wallThickness, wallOptions), // ceiling
     ];
 
-    // Create skill bodies with better physics
+    // Create skill bodies - spawn inside visible area
     const bodies = skills.map((_, index) => {
       const x = Math.random() * (width - 120) + 60;
-      const y = Math.random() * -300 - 50;
+      const y = 50 + Math.random() * 100; // Start inside visible area
       return Matter.Bodies.rectangle(x, y, 70, 70, {
         chamfer: { radius: 16 },
         restitution: 0.3,
@@ -84,6 +84,15 @@ const GravitySkills = () => {
         label: `skill-${index}`,
       });
     });
+
+    // Initialize positions immediately
+    const initialPositions = bodies.map((body, id) => ({
+      x: body.position.x,
+      y: body.position.y,
+      angle: body.angle,
+      id
+    }));
+    setSkillPositions(initialPositions);
 
     Matter.Composite.add(engine.world, [...walls, ...bodies]);
 
