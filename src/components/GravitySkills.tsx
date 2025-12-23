@@ -34,9 +34,12 @@ const GravitySkills = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Create engine
+    // Create engine with smoother physics
     const engine = Matter.Engine.create({
-      gravity: { x: 0, y: 0.8 }
+      gravity: { x: 0, y: 0.6 },
+      constraintIterations: 4,
+      positionIterations: 8,
+      velocityIterations: 6,
     });
     engineRef.current = engine;
 
@@ -53,36 +56,62 @@ const GravitySkills = () => {
       }
     });
 
-    // Create walls
-    const wallOptions = { isStatic: true, render: { visible: false } };
+    // Create thicker walls to prevent escape
+    const wallThickness = 100;
+    const wallOptions = { 
+      isStatic: true, 
+      render: { visible: false },
+      friction: 0.8,
+      restitution: 0.3,
+    };
     const walls = [
-      Matter.Bodies.rectangle(width / 2, height + 30, width, 60, wallOptions), // floor
-      Matter.Bodies.rectangle(-30, height / 2, 60, height, wallOptions), // left
-      Matter.Bodies.rectangle(width + 30, height / 2, 60, height, wallOptions), // right
+      Matter.Bodies.rectangle(width / 2, height + wallThickness / 2, width + wallThickness * 2, wallThickness, wallOptions), // floor
+      Matter.Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height + wallThickness, wallOptions), // left
+      Matter.Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height + wallThickness, wallOptions), // right
+      Matter.Bodies.rectangle(width / 2, -wallThickness / 2, width + wallThickness * 2, wallThickness, wallOptions), // ceiling
     ];
 
-    // Create skill bodies
+    // Create skill bodies with better physics
     const bodies = skills.map((_, index) => {
-      const x = Math.random() * (width - 100) + 50;
-      const y = Math.random() * -400 - 50;
+      const x = Math.random() * (width - 120) + 60;
+      const y = Math.random() * -300 - 50;
       return Matter.Bodies.rectangle(x, y, 70, 70, {
         chamfer: { radius: 16 },
-        restitution: 0.4,
-        friction: 0.3,
-        frictionAir: 0.01,
+        restitution: 0.3,
+        friction: 0.5,
+        frictionAir: 0.02,
+        density: 0.002,
         label: `skill-${index}`,
       });
     });
 
     Matter.Composite.add(engine.world, [...walls, ...bodies]);
 
-    // Mouse control
+    // Mouse control with smoother interaction
     const mouse = Matter.Mouse.create(canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.2,
+        stiffness: 0.1,
+        damping: 0.3,
         render: { visible: false }
+      }
+    });
+
+    // Limit velocity on release to prevent throwing too hard
+    Matter.Events.on(mouseConstraint, 'enddrag', (event) => {
+      const body = (event as unknown as { body: Matter.Body | null }).body;
+      if (body) {
+        const maxVelocity = 15;
+        const velocity = body.velocity;
+        const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+        if (speed > maxVelocity) {
+          const scale = maxVelocity / speed;
+          Matter.Body.setVelocity(body, {
+            x: velocity.x * scale,
+            y: velocity.y * scale
+          });
+        }
       }
     });
 
