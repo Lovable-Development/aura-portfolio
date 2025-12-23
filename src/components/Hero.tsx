@@ -1,16 +1,20 @@
 import { motion } from "framer-motion";
 
 const floatingSymbols = [
-  { symbol: "{", x: "12%", y: "18%", delay: 0, size: "text-3xl" },
-  { symbol: "}", x: "88%", y: "22%", delay: 0.8, size: "text-4xl" },
-  { symbol: "</>", x: "8%", y: "65%", delay: 1.2, size: "text-2xl" },
-  { symbol: ";", x: "82%", y: "72%", delay: 2, size: "text-5xl" },
-  { symbol: "()", x: "22%", y: "80%", delay: 2.8, size: "text-2xl" },
-  { symbol: "=>", x: "78%", y: "12%", delay: 3.2, size: "text-3xl" },
-  { symbol: "[]", x: "6%", y: "42%", delay: 4, size: "text-2xl" },
-  { symbol: "//", x: "92%", y: "48%", delay: 4.5, size: "text-3xl" },
-  { symbol: "&&", x: "18%", y: "35%", delay: 5, size: "text-2xl" },
-  { symbol: "::", x: "85%", y: "58%", delay: 5.5, size: "text-2xl" },
+  { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
+  { symbol: "}", x: "90%", y: "20%", delay: 0.5, size: "text-5xl" },
+  { symbol: "<>", x: "85%", y: "65%", delay: 1, size: "text-3xl" },
+  { symbol: "(", x: "8%", y: "70%", delay: 1.5, size: "text-5xl" },
+  { symbol: ")", x: "15%", y: "55%", delay: 2, size: "text-4xl" },
+  { symbol: ";", x: "78%", y: "75%", delay: 2.5, size: "text-6xl" },
+  { symbol: "</>", x: "20%", y: "25%", delay: 3, size: "text-3xl" },
+  { symbol: "=>", x: "75%", y: "12%", delay: 3.5, size: "text-4xl" },
+  { symbol: "{ }", x: "5%", y: "40%", delay: 4, size: "text-3xl" },
+  { symbol: "//", x: "92%", y: "45%", delay: 4.5, size: "text-4xl" },
+  { symbol: "[ ]", x: "88%", y: "85%", delay: 5, size: "text-3xl" },
+  { symbol: "&&", x: "25%", y: "82%", delay: 5.5, size: "text-3xl" },
+  { symbol: "::", x: "70%", y: "35%", delay: 6, size: "text-3xl" },
+  { symbol: "< >", x: "12%", y: "88%", delay: 6.5, size: "text-4xl" },
 ];
 
 const Hero = () => {
@@ -26,18 +30,18 @@ const Hero = () => {
       {floatingSymbols.map((item, index) => (
         <motion.span
           key={index}
-          className={`floating-symbol font-mono ${item.size} text-foreground/10`}
+          className={`floating-symbol font-mono ${item.size} text-foreground font-light`}
           style={{ left: item.x, top: item.y }}
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ 
-            opacity: [0.06, 0.12, 0.06],
-            y: [0, -15, 0, -8, 0],
-            x: [0, 3, 0, -3, 0],
-            rotate: [0, 2, 0, -2, 0],
-            scale: [1, 1.02, 1],
+            opacity: [0.08, 0.15, 0.08],
+            y: [0, -12, 0, -6, 0],
+            x: [0, 4, 0, -4, 0],
+            rotate: [0, 3, 0, -3, 0],
+            scale: [1, 1.05, 1],
           }}
           transition={{
-            duration: 8 + index * 0.5,
+            duration: 7 + index * 0.4,
             delay: item.delay,
             repeat: Infinity,
             ease: "easeInOut",
