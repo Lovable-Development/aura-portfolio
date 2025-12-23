@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 
 const floatingSymbols = [
-  { symbol: "{", x: "15%", y: "20%", delay: 0, size: "text-4xl" },
-  { symbol: "}", x: "85%", y: "25%", delay: 0.5, size: "text-5xl" },
-  { symbol: "</>", x: "10%", y: "70%", delay: 1, size: "text-3xl" },
-  { symbol: ";", x: "80%", y: "75%", delay: 1.5, size: "text-6xl" },
-  { symbol: "( )", x: "25%", y: "85%", delay: 2, size: "text-3xl" },
-  { symbol: "=>", x: "75%", y: "15%", delay: 2.5, size: "text-4xl" },
-  { symbol: "[ ]", x: "5%", y: "45%", delay: 3, size: "text-3xl" },
-  { symbol: "//", x: "90%", y: "50%", delay: 3.5, size: "text-4xl" },
+  { symbol: "{", x: "12%", y: "18%", delay: 0, size: "text-3xl" },
+  { symbol: "}", x: "88%", y: "22%", delay: 0.8, size: "text-4xl" },
+  { symbol: "</>", x: "8%", y: "65%", delay: 1.2, size: "text-2xl" },
+  { symbol: ";", x: "82%", y: "72%", delay: 2, size: "text-5xl" },
+  { symbol: "()", x: "22%", y: "80%", delay: 2.8, size: "text-2xl" },
+  { symbol: "=>", x: "78%", y: "12%", delay: 3.2, size: "text-3xl" },
+  { symbol: "[]", x: "6%", y: "42%", delay: 4, size: "text-2xl" },
+  { symbol: "//", x: "92%", y: "48%", delay: 4.5, size: "text-3xl" },
+  { symbol: "&&", x: "18%", y: "35%", delay: 5, size: "text-2xl" },
+  { symbol: "::", x: "85%", y: "58%", delay: 5.5, size: "text-2xl" },
 ];
 
 const Hero = () => {
@@ -18,26 +20,27 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Grid Background */}
-      <div className="absolute inset-0 grid-background opacity-50" />
+      <div className="absolute inset-0 grid-background opacity-40" />
       
       {/* Floating Code Symbols */}
       {floatingSymbols.map((item, index) => (
         <motion.span
           key={index}
-          className={`floating-symbol font-mono ${item.size}`}
+          className={`floating-symbol font-mono ${item.size} text-foreground/10`}
           style={{ left: item.x, top: item.y }}
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ 
-            opacity: 0.15, 
-            scale: 1,
-            y: [0, -20, 0],
-            rotate: [0, 5, 0, -5, 0]
+            opacity: [0.06, 0.12, 0.06],
+            y: [0, -15, 0, -8, 0],
+            x: [0, 3, 0, -3, 0],
+            rotate: [0, 2, 0, -2, 0],
+            scale: [1, 1.02, 1],
           }}
           transition={{
-            duration: 6,
+            duration: 8 + index * 0.5,
             delay: item.delay,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         >
           {item.symbol}
