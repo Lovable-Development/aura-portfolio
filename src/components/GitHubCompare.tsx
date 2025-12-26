@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Github, Users, Star, GitFork, Flame, Loader2, Sparkles, Heart } from "lucide-react";
+import { Github, Users, Star, GitFork, Loader2, ArrowRight } from "lucide-react";
 
 interface GitHubStats {
   username: string;
@@ -32,10 +29,9 @@ const GitHubCompare = () => {
       if (!userRes.ok) throw new Error("User not found");
       const userData = await userRes.json();
 
-      // Fetch repos to calculate total stars
       const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
       const reposData = await reposRes.json();
-      const totalStars = Array.isArray(reposData) 
+      const totalStars = Array.isArray(reposData)
         ? reposData.reduce((acc: number, repo: any) => acc + (repo.stargazers_count || 0), 0)
         : 0;
 
@@ -43,20 +39,20 @@ const GitHubCompare = () => {
         username: userData.login,
         avatar: userData.avatar_url,
         name: userData.name || userData.login,
-        bio: userData.bio || "No bio available",
+        bio: userData.bio || "Building cool stuff",
         publicRepos: userData.public_repos,
         followers: userData.followers,
         following: userData.following,
         totalStars,
       };
-    } catch (err) {
+    } catch {
       return null;
     }
   };
 
   const handleCompare = async () => {
     if (!visitorUsername.trim()) {
-      setError("Please enter your GitHub username");
+      setError("Enter your GitHub username");
       return;
     }
 
@@ -68,14 +64,8 @@ const GitHubCompare = () => {
       fetchGitHubStats(visitorUsername.trim()),
     ]);
 
-    if (!myData) {
-      setError("Could not fetch my profile");
-      setLoading(false);
-      return;
-    }
-
-    if (!visitorData) {
-      setError("Could not find that GitHub user. Check the username!");
+    if (!myData || !visitorData) {
+      setError(visitorData ? "Could not fetch host profile" : "Username not found");
       setLoading(false);
       return;
     }
@@ -86,164 +76,112 @@ const GitHubCompare = () => {
     setLoading(false);
   };
 
-  const StatBadge = ({ 
-    icon: Icon, 
-    label, 
-    myValue, 
+  const StatRow = ({
+    label,
+    icon: Icon,
+    myValue,
     theirValue,
-    color 
-  }: { 
-    icon: any; 
-    label: string; 
-    myValue: number; 
+  }: {
+    label: string;
+    icon: any;
+    myValue: number;
     theirValue: number;
-    color: string;
   }) => {
-    const myWins = myValue > theirValue;
-    const tie = myValue === theirValue;
-    
+    const total = myValue + theirValue || 1;
+    const myPercent = (myValue / total) * 100;
+
     return (
-      <div className="flex items-center justify-between py-3 px-4 rounded-xl bg-secondary/50 border border-border/50">
-        <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-lg ${color}`}>
-            <Icon className="w-4 h-4 text-white" />
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="space-y-2"
+      >
+        <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Icon className="w-4 h-4" />
+            <span>{label}</span>
           </div>
-          <span className="text-sm font-medium text-foreground">{label}</span>
+          <div className="flex items-center gap-4 font-mono text-sm">
+            <span className="text-foreground font-medium">{myValue.toLocaleString()}</span>
+            <span className="text-muted-foreground/50">—</span>
+            <span className="text-foreground font-medium">{theirValue.toLocaleString()}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <span className={`text-lg font-bold ${myWins && !tie ? 'text-emerald-500' : 'text-muted-foreground'}`}>
-            {myValue.toLocaleString()}
-          </span>
-          <span className="text-muted-foreground">vs</span>
-          <span className={`text-lg font-bold ${!myWins && !tie ? 'text-emerald-500' : 'text-muted-foreground'}`}>
-            {theirValue.toLocaleString()}
-          </span>
+        {/* Comparison Bar */}
+        <div className="relative h-1.5 bg-secondary rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${myPercent}%` }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="absolute left-0 top-0 h-full bg-foreground rounded-full"
+          />
         </div>
-      </div>
+      </motion.div>
     );
   };
 
-  const ProfileCard = ({ stats, isMe }: { stats: GitHubStats; isMe: boolean }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: isMe ? 0 : 0.1 }}
-    >
-      <Card className="overflow-hidden border-2 border-border/50 bg-card/80 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-col items-center text-center">
-            <div className="relative mb-4">
-              <img
-                src={stats.avatar}
-                alt={stats.name}
-                className="w-24 h-24 rounded-full border-4 border-background shadow-lg"
-              />
-              {isMe && (
-                <span className="absolute -bottom-1 -right-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
-                  Host
-                </span>
-              )}
-            </div>
-            <h3 className="text-xl font-bold text-foreground">{stats.name}</h3>
-            <a
-              href={`https://github.com/${stats.username}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-            >
-              <Github className="w-3 h-3" />
-              @{stats.username}
-            </a>
-            <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{stats.bio}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-
   return (
-    <section id="github-compare" className="py-24 px-4 bg-gradient-to-b from-secondary/20 to-background relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 text-amber-700 dark:text-amber-300 text-sm font-medium mb-6"
-          >
-            <Sparkles className="w-4 h-4" />
-            Just for fun 💛
-          </motion.div>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight"
-          >
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              GitHub Buddy Compare
-            </span>
-          </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-muted-foreground max-w-lg mx-auto"
-          >
-            Drop your GitHub username and see how we stack up! No competition here — just celebrating different journeys ✨
-          </motion.p>
+    <section id="github-compare" className="py-24 px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-3xl mx-auto"
+      >
+        {/* Header */}
+        <div className="text-center mb-16">
+          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4">
+            Just for fun
+          </p>
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">
+            GitHub Buddy Compare
+          </h2>
+          <p className="mt-4 text-muted-foreground font-light max-w-md mx-auto">
+            Drop your username and let's see how we're both doing. No competition — just celebrating different paths.
+          </p>
         </div>
 
-        {/* Input Section */}
+        {/* Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-12"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-16"
         >
           <div className="relative flex-1">
-            <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <Input
+            <Github className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
               type="text"
               placeholder="Your GitHub username"
               value={visitorUsername}
               onChange={(e) => setVisitorUsername(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCompare()}
-              className="pl-10 h-12 bg-background border-border/50"
+              className="w-full pl-11 pr-4 py-3 bg-secondary/50 border border-border rounded-full text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
             />
           </div>
-          <Button
+          <button
             onClick={handleCompare}
             disabled={loading}
-            className="h-12 px-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <>
-                <Sparkles className="w-4 h-4 mr-2" />
                 Compare
+                <ArrowRight className="w-4 h-4" />
               </>
             )}
-          </Button>
+          </button>
         </motion.div>
 
         {error && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-destructive mb-8"
+            className="text-center text-destructive text-sm mb-8"
           >
             {error}
           </motion.p>
@@ -254,87 +192,160 @@ const GitHubCompare = () => {
           {hasCompared && myStats && visitorStats && (
             <motion.div
               key="results"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
               className="space-y-8"
             >
               {/* Profile Cards */}
               <div className="grid md:grid-cols-2 gap-6">
-                <ProfileCard stats={myStats} isMe={true} />
-                <ProfileCard stats={visitorStats} isMe={false} />
+                {[
+                  { stats: myStats, isHost: true },
+                  { stats: visitorStats, isHost: false },
+                ].map(({ stats, isHost }, idx) => (
+                  <motion.div
+                    key={stats.username}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 hover-lift"
+                  >
+                    {/* Gradient accent */}
+                    <div
+                      className="absolute top-0 left-0 right-0 h-1"
+                      style={{
+                        background: isHost
+                          ? "linear-gradient(90deg, #667eea, #764ba2)"
+                          : "linear-gradient(90deg, #4facfe, #00f2fe)",
+                      }}
+                    />
+
+                    <div className="flex items-start gap-4">
+                      <div className="relative">
+                        <img
+                          src={stats.avatar}
+                          alt={stats.name}
+                          className="w-16 h-16 rounded-full border-2 border-border"
+                        />
+                        {isHost && (
+                          <span className="absolute -bottom-1 -right-1 text-xs bg-foreground text-background px-1.5 py-0.5 rounded-full font-medium">
+                            Host
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-semibold tracking-tight truncate">
+                          {stats.name}
+                        </h3>
+                        <a
+                          href={`https://github.com/${stats.username}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          @{stats.username}
+                        </a>
+                        <p className="mt-2 text-sm text-muted-foreground line-clamp-2 font-light">
+                          {stats.bio}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Quick Stats */}
+                    <div className="mt-6 grid grid-cols-3 gap-4 pt-4 border-t border-border">
+                      {[
+                        { label: "Repos", value: stats.publicRepos },
+                        { label: "Stars", value: stats.totalStars },
+                        { label: "Followers", value: stats.followers },
+                      ].map((stat) => (
+                        <div key={stat.label} className="text-center">
+                          <p className="text-xl font-semibold tracking-tight">
+                            {stat.value.toLocaleString()}
+                          </p>
+                          <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                            {stat.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
               </div>
 
-              {/* Stats Comparison */}
-              <Card className="border-2 border-border/50 bg-card/80 backdrop-blur-sm overflow-hidden">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-center gap-2 mb-6">
-                    <Flame className="w-5 h-5 text-orange-500" />
-                    <h3 className="text-lg font-semibold text-foreground">Stats Showdown</h3>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <StatBadge
-                      icon={GitFork}
-                      label="Public Repos"
-                      myValue={myStats.publicRepos}
-                      theirValue={visitorStats.publicRepos}
-                      color="bg-blue-500"
-                    />
-                    <StatBadge
-                      icon={Star}
-                      label="Total Stars"
-                      myValue={myStats.totalStars}
-                      theirValue={visitorStats.totalStars}
-                      color="bg-amber-500"
-                    />
-                    <StatBadge
-                      icon={Users}
-                      label="Followers"
-                      myValue={myStats.followers}
-                      theirValue={visitorStats.followers}
-                      color="bg-purple-500"
-                    />
-                    <StatBadge
-                      icon={Heart}
-                      label="Following"
-                      myValue={myStats.following}
-                      theirValue={visitorStats.following}
-                      color="bg-pink-500"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Wholesome Message */}
+              {/* Comparison Bars */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="rounded-2xl border border-border bg-card p-6 space-y-6"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium tracking-tight">Stats Breakdown</h3>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 rounded-full bg-foreground" />
+                      {myStats.name}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 rounded-full bg-secondary" />
+                      {visitorStats.name}
+                    </span>
+                  </div>
+                </div>
+
+                <StatRow
+                  label="Repositories"
+                  icon={GitFork}
+                  myValue={myStats.publicRepos}
+                  theirValue={visitorStats.publicRepos}
+                />
+                <StatRow
+                  label="Stars Earned"
+                  icon={Star}
+                  myValue={myStats.totalStars}
+                  theirValue={visitorStats.totalStars}
+                />
+                <StatRow
+                  label="Followers"
+                  icon={Users}
+                  myValue={myStats.followers}
+                  theirValue={visitorStats.followers}
+                />
+              </motion.div>
+
+              {/* Wholesome Footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
                 className="text-center"
               >
-                <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300">
-                  <span className="text-lg">🌱</span>
-                  <span className="font-medium">Both grinding, different paths ✨</span>
-                </div>
+                <p className="text-sm text-muted-foreground font-light">
+                  Both grinding, different paths ✨
+                </p>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Pre-compare state hint */}
+        {/* Empty State */}
         {!hasCompared && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-center text-muted-foreground"
+            transition={{ delay: 0.4 }}
+            className="text-center py-12"
           >
-            <Github className="w-16 h-16 mx-auto mb-4 opacity-20" />
-            <p>Enter your username above to see the comparison!</p>
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-secondary/50 mb-6">
+              <Github className="w-10 h-10 text-muted-foreground/40" />
+            </div>
+            <p className="text-muted-foreground font-light">
+              Enter your username above to see the comparison
+            </p>
           </motion.div>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 };
