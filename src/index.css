@@ -132,7 +132,7 @@
   }
 
   .skill-icon {
-    @apply w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center cursor-grab active:cursor-grabbing;
+    @apply h-14 rounded-2xl bg-secondary flex items-center justify-center cursor-grab active:cursor-grabbing px-5 py-2;
     box-shadow: var(--shadow-soft);
     transition: box-shadow 0.2s ease;
   }

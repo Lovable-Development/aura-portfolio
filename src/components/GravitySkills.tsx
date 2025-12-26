@@ -1,20 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import Matter from "matter-js";
-import { motion } from "framer-motion";
 
 const skills = [
-  { name: "React", icon: "⚛️" },
-  { name: "TypeScript", icon: "📘" },
-  { name: "Node.js", icon: "🟢" },
-  { name: "Python", icon: "🐍" },
-  { name: "GraphQL", icon: "◈" },
-  { name: "PostgreSQL", icon: "🐘" },
-  { name: "Docker", icon: "🐳" },
-  { name: "AWS", icon: "☁️" },
-  { name: "Git", icon: "📦" },
-  { name: "Figma", icon: "🎨" },
-  { name: "Next.js", icon: "▲" },
-  { name: "Tailwind", icon: "💨" },
+  { name: "React", icon: "⚛️", color: "#61dafb" },
+  { name: "TypeScript", icon: "📘", color: "#3178c6" },
+  { name: "Node.js", icon: "🟢", color: "#339933" },
+  { name: "Python", icon: "🐍", color: "#3776ab" },
+  { name: "GraphQL", icon: "◈", color: "#e10098" },
+  { name: "PostgreSQL", icon: "🐘", color: "#336791" },
+  { name: "Docker", icon: "🐳", color: "#2496ed" },
+  { name: "AWS", icon: "☁️", color: "#ff9900" },
+  { name: "Git", icon: "📦", color: "#f05032" },
+  { name: "Figma", icon: "🎨", color: "#f24e1e" },
+  { name: "Next.js", icon: "▲", color: "#000000" },
+  { name: "Tailwind", icon: "💨", color: "#06b6d4" },
 ];
 
 const GravitySkills = () => {
@@ -22,6 +21,7 @@ const GravitySkills = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
   const [skillPositions, setSkillPositions] = useState<{ x: number; y: number; angle: number; id: number }[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current || !canvasRef.current) return;
@@ -34,16 +34,16 @@ const GravitySkills = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Create engine with smoother physics
+    // Create engine with gentle gravity
     const engine = Matter.Engine.create({
-      gravity: { x: 0, y: 0.6 },
-      constraintIterations: 4,
-      positionIterations: 8,
-      velocityIterations: 6,
+      gravity: { x: 0, y: 0.8 },
+      constraintIterations: 6,
+      positionIterations: 10,
+      velocityIterations: 8,
     });
     engineRef.current = engine;
 
-    // Create renderer (invisible - we render React components)
+    // Create renderer
     const render = Matter.Render.create({
       canvas: canvas,
       engine: engine,
@@ -56,36 +56,49 @@ const GravitySkills = () => {
       }
     });
 
-    // Create thicker walls to prevent escape
-    const wallThickness = 100;
+    // Create walls with proper thickness
+    const wallThickness = 60;
     const wallOptions = { 
       isStatic: true, 
       render: { visible: false },
-      friction: 0.8,
-      restitution: 0.3,
+      friction: 0.6,
+      restitution: 0.2,
     };
+    
     const walls = [
-      Matter.Bodies.rectangle(width / 2, height + wallThickness / 2, width + wallThickness * 2, wallThickness, wallOptions), // floor
-      Matter.Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height + wallThickness, wallOptions), // left
-      Matter.Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height + wallThickness, wallOptions), // right
-      Matter.Bodies.rectangle(width / 2, -wallThickness / 2, width + wallThickness * 2, wallThickness, wallOptions), // ceiling
+      Matter.Bodies.rectangle(width / 2, height + wallThickness / 2, width, wallThickness, wallOptions), // floor
+      Matter.Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height * 2, wallOptions), // left
+      Matter.Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height * 2, wallOptions), // right
+      Matter.Bodies.rectangle(width / 2, -wallThickness / 2, width, wallThickness, wallOptions), // ceiling
     ];
 
-    // Create skill bodies - spawn inside visible area
+    // Create skill bodies in a grid layout to prevent initial collision
+    const gridCols = 4;
+    const gridRows = 3;
+    const spacing = 100;
+    const startX = (width - (gridCols - 1) * spacing) / 2;
+    const startY = 80;
+
     const bodies = skills.map((_, index) => {
-      const x = Math.random() * (width - 120) + 60;
-      const y = 50 + Math.random() * 100; // Start inside visible area
-      return Matter.Bodies.rectangle(x, y, 70, 70, {
-        chamfer: { radius: 16 },
-        restitution: 0.3,
-        friction: 0.5,
-        frictionAir: 0.02,
-        density: 0.002,
+      const col = index % gridCols;
+      const row = Math.floor(index / gridCols);
+      const x = startX + col * spacing;
+      const y = startY + row * spacing;
+      
+      return Matter.Bodies.circle(x, y, 35, {
+        restitution: 0.4,
+        friction: 0.6,
+        frictionAir: 0.01,
+        density: 0.001,
         label: `skill-${index}`,
+        render: {
+          fillStyle: skills[index].color,
+        },
+        slop: 0.05,
       });
     });
 
-    // Initialize positions immediately
+    // Initialize positions
     const initialPositions = bodies.map((body, id) => ({
       x: body.position.x,
       y: body.position.y,
@@ -96,22 +109,28 @@ const GravitySkills = () => {
 
     Matter.Composite.add(engine.world, [...walls, ...bodies]);
 
-    // Mouse control with smoother interaction
+    // Mouse control with smooth interaction
     const mouse = Matter.Mouse.create(canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.1,
-        damping: 0.3,
+        stiffness: 0.08,
+        damping: 0.5,
         render: { visible: false }
       }
     });
 
-    // Limit velocity on release to prevent throwing too hard
+    // Track dragging state
+    Matter.Events.on(mouseConstraint, 'startdrag', () => {
+      setIsDragging(true);
+    });
+
     Matter.Events.on(mouseConstraint, 'enddrag', (event) => {
-      const body = (event as unknown as { body: Matter.Body | null }).body;
+      setIsDragging(false);
+      const body = (event as any).body;
       if (body) {
-        const maxVelocity = 15;
+        // Limit velocity on release for smoother experience
+        const maxVelocity = 12;
         const velocity = body.velocity;
         const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
         if (speed > maxVelocity) {
@@ -121,15 +140,22 @@ const GravitySkills = () => {
             y: velocity.y * scale
           });
         }
+        
+        // Limit angular velocity
+        const maxAngularVelocity = 0.2;
+        if (Math.abs(body.angularVelocity) > maxAngularVelocity) {
+          Matter.Body.setAngularVelocity(
+            body, 
+            Math.sign(body.angularVelocity) * maxAngularVelocity
+          );
+        }
       }
     });
 
     Matter.Composite.add(engine.world, mouseConstraint);
-
-    // Keep mouse in sync
     render.mouse = mouse;
 
-    // Update skill positions
+    // Update skill positions smoothly
     const updatePositions = () => {
       const positions = bodies.map((body, id) => ({
         x: body.position.x,
@@ -141,13 +167,17 @@ const GravitySkills = () => {
     };
 
     // Run engine
-    const runner = Matter.Runner.create();
+    const runner = Matter.Runner.create({
+      delta: 1000 / 60,
+      isFixed: true,
+    });
     Matter.Runner.run(runner, engine);
 
     // Animation loop
+    let animationId: number;
     const animate = () => {
       updatePositions();
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
     animate();
 
@@ -157,75 +187,86 @@ const GravitySkills = () => {
       const newWidth = containerRef.current.offsetWidth;
       canvas.width = newWidth;
       
-      // Update walls
-      Matter.Body.setPosition(walls[0], { x: newWidth / 2, y: height + 30 });
-      Matter.Body.setPosition(walls[2], { x: newWidth + 30, y: height / 2 });
+      // Update wall positions
+      Matter.Body.setPosition(walls[0], { x: newWidth / 2, y: height + wallThickness / 2 });
+      Matter.Body.setPosition(walls[2], { x: newWidth + wallThickness / 2, y: height / 2 });
+      Matter.Body.setPosition(walls[3], { x: newWidth / 2, y: -wallThickness / 2 });
+      
+      // Scale positions
+      Matter.Body.scale(walls[0], newWidth / width, 1);
+      Matter.Body.scale(walls[3], newWidth / width, 1);
     };
 
     window.addEventListener("resize", handleResize);
 
     return () => {
+      cancelAnimationFrame(animationId);
       Matter.Runner.stop(runner);
       Matter.Engine.clear(engine);
       Matter.Render.stop(render);
+      Matter.World.clear(engine.world, false);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <section id="skills" className="py-24 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="max-w-5xl mx-auto"
-      >
+    <section id="skills" className="py-24 px-4 bg-gradient-to-b from-background to-secondary/20">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4">
+          <p className="text-sm tracking-[0.3em] uppercase mb-4 text-blue-600 dark:text-blue-400 font-medium">
             Technologies
           </p>
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Skills & Tools
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-md mx-auto">
-            Drag, throw, and play with the technologies I work with daily.
+          <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+            Drag, drop, and stack the technologies I work with daily.
           </p>
         </div>
 
         <div 
           ref={containerRef}
-          className="relative w-full h-[500px] rounded-3xl bg-secondary/30 border border-border overflow-hidden"
+          className="relative w-full h-[500px] rounded-3xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 border-2 border-blue-200 dark:border-gray-700 overflow-hidden shadow-2xl"
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
           
           {skillPositions.map((pos) => (
             <div
               key={pos.id}
-              className="skill-icon absolute pointer-events-none"
+              className="absolute pointer-events-none transition-transform"
               style={{
                 left: pos.x - 35,
                 top: pos.y - 35,
                 transform: `rotate(${pos.angle}rad)`,
+                width: '70px',
+                height: '70px',
               }}
             >
-              <span className="text-2xl">{skills[pos.id].icon}</span>
+              <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 hover:scale-110 transition-transform">
+                <span className="text-3xl">{skills[pos.id].icon}</span>
+              </div>
             </div>
           ))}
 
           {/* Skill Labels */}
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4">
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4 pointer-events-none">
             {skills.map((skill, index) => (
               <span
                 key={index}
-                className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded-full backdrop-blur-sm"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 px-3 py-1 rounded-full backdrop-blur-sm border border-gray-300 dark:border-gray-600"
               >
                 {skill.name}
               </span>
             ))}
           </div>
+
+          {/* Instructions */}
+          <div className="absolute top-4 left-4 text-xs text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 px-3 py-2 rounded-lg backdrop-blur-sm border border-gray-300 dark:border-gray-600">
+            💡 Drag & drop to interact • Stack them up!
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

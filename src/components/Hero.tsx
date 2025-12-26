@@ -1,20 +1,13 @@
 import { motion } from "framer-motion";
+import Parallax from "./Parallax";
 
 const floatingSymbols = [
   { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
   { symbol: "}", x: "90%", y: "20%", delay: 0.5, size: "text-5xl" },
-  { symbol: "<>", x: "85%", y: "65%", delay: 1, size: "text-3xl" },
-  { symbol: "(", x: "8%", y: "70%", delay: 1.5, size: "text-5xl" },
-  { symbol: ")", x: "15%", y: "55%", delay: 2, size: "text-4xl" },
-  { symbol: ";", x: "78%", y: "75%", delay: 2.5, size: "text-6xl" },
+  { symbol: ";", x: "25%", y: "82%", delay: 2.5, size: "text-6xl" },
   { symbol: "</>", x: "20%", y: "25%", delay: 3, size: "text-3xl" },
-  { symbol: "=>", x: "75%", y: "12%", delay: 3.5, size: "text-4xl" },
   { symbol: "{ }", x: "5%", y: "40%", delay: 4, size: "text-3xl" },
-  { symbol: "//", x: "92%", y: "45%", delay: 4.5, size: "text-4xl" },
-  { symbol: "[ ]", x: "88%", y: "85%", delay: 5, size: "text-3xl" },
-  { symbol: "&&", x: "25%", y: "82%", delay: 5.5, size: "text-3xl" },
-  { symbol: "::", x: "70%", y: "35%", delay: 6, size: "text-3xl" },
-  { symbol: "< >", x: "12%", y: "88%", delay: 6.5, size: "text-4xl" },
+  { symbol: ":)", x: "75%", y: "75%", delay: 5.5, size: "text-8xl" },
 ];
 
 const Hero = () => {
@@ -25,7 +18,7 @@ const Hero = () => {
     >
       {/* Grid Background */}
       <div className="absolute inset-0 grid-background opacity-40" />
-      
+
       {/* Floating Code Symbols */}
       {floatingSymbols.map((item, index) => (
         <motion.span
@@ -33,7 +26,7 @@ const Hero = () => {
           className={`floating-symbol font-mono ${item.size} text-foreground font-light`}
           style={{ left: item.x, top: item.y }}
           initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ 
+          animate={{
             opacity: [0.08, 0.15, 0.08],
             y: [0, -12, 0, -6, 0],
             x: [0, 4, 0, -4, 0],
@@ -53,6 +46,14 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
+        {/* <motion.div
+          className="mt-3 flex items-center justify-center gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <Parallax />
+        </motion.div> */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +70,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          Alex Chen
+          Sachin Gupta
         </motion.h1>
 
         <motion.p
@@ -78,7 +79,8 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          Crafting elegant digital experiences through clean code and thoughtful design.
+          Crafting elegant digital experiences through clean code and thoughtful
+          design.
         </motion.p>
 
         <motion.div

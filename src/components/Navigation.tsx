@@ -39,10 +39,10 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{ y: 100, x:"-50%", opacity: 0 }}
+      animate={{ y: 0,x:"-50%", opacity: 1 }}
       transition={{ delay: 0.8, duration: 0.5 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 "
     >
       <div className="glass-panel px-2 py-2 rounded-full shadow-soft">
         <ul className="flex items-center gap-1">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import {Phone, Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -80,7 +80,16 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium">hello@alexchen.dev</p>
+                    <p className="font-medium">sachin914597@gmail.com</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Phone</p>
+                    <p className="font-medium">+91 9145978079</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -89,7 +98,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="font-medium">San Francisco, CA</p>
+                    <p className="font-medium">Jaipur,India</p>
                   </div>
                 </div>
               </div>
