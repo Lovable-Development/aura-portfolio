@@ -169,7 +169,6 @@ const GravitySkills = () => {
     // Run engine
     const runner = Matter.Runner.create({
       delta: 1000 / 60,
-      isFixed: true,
     });
     Matter.Runner.run(runner, engine);
 
