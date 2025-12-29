@@ -102,6 +102,19 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
     }
   }, [selectedProject, onModalChange]);
 
+  // Auto-slide carousel
+  useEffect(() => {
+    if (!selectedProject || selectedProject.images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => 
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [selectedProject]);
+
   const nextImage = () => {
     if (selectedProject) {
       setCurrentImageIndex((prev) =>
