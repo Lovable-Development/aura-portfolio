@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Github } from "lucide-react";
+import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Project {
   id: number;
@@ -9,9 +9,13 @@ interface Project {
   description: string;
   fullDescription: string;
   technologies: string[];
-  image: string;
+  images: string[]; // Changed to array
   liveUrl?: string;
   githubUrl?: string;
+}
+
+interface ProjectsProps {
+  onModalChange?: (isOpen: boolean) => void;
 }
 
 const projects: Project[] = [
@@ -22,7 +26,11 @@ const projects: Project[] = [
     description: "Real-time analytics platform for financial data visualization",
     fullDescription: "A comprehensive financial analytics dashboard built for enterprise clients. Features real-time data streaming, interactive charts, and AI-powered insights for market analysis. The platform handles millions of data points daily with sub-second latency.",
     technologies: ["React", "TypeScript", "D3.js", "WebSocket", "PostgreSQL"],
-    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    images: [
+      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "linear-gradient(135deg, #764ba2 0%, #f093fb 100%)",
+      "linear-gradient(135deg, #f093fb 0%, #667eea 100%)"
+    ],
     liveUrl: "#",
     githubUrl: "#"
   },
@@ -33,7 +41,11 @@ const projects: Project[] = [
     description: "Modern shopping experience with headless CMS integration",
     fullDescription: "A high-performance e-commerce solution featuring server-side rendering, optimistic UI updates, and a headless CMS for content management. Includes advanced features like AI-powered product recommendations and dynamic pricing.",
     technologies: ["Next.js", "Stripe", "Sanity", "Tailwind CSS"],
-    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+    images: [
+      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
+      "linear-gradient(135deg, #ff9a9e 0%, #f093fb 100%)"
+    ],
     liveUrl: "#",
   },
   {
@@ -43,7 +55,11 @@ const projects: Project[] = [
     description: "Cross-platform health and wellness tracking solution",
     fullDescription: "A wellness companion app that syncs across devices, tracking fitness metrics, nutrition, and mental health. Features include wearable device integration, personalized insights, and gamification elements to encourage healthy habits.",
     technologies: ["React Native", "Node.js", "MongoDB", "HealthKit"],
-    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+    images: [
+      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      "linear-gradient(135deg, #00f2fe 0%, #43e97b 100%)",
+      "linear-gradient(135deg, #43e97b 0%, #4facfe 100%)"
+    ],
     githubUrl: "#"
   },
   {
@@ -53,14 +69,42 @@ const projects: Project[] = [
     description: "Generative AI tools for creative professionals",
     fullDescription: "An AI-powered creative suite that helps content creators generate, edit, and optimize their work. Includes text generation, image editing, and automated content optimization using cutting-edge machine learning models.",
     technologies: ["Python", "TensorFlow", "FastAPI", "React"],
-    image: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+    images: [
+      "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      "linear-gradient(135deg, #38f9d7 0%, #667eea 100%)",
+      "linear-gradient(135deg, #667eea 0%, #43e97b 100%)"
+    ],
     liveUrl: "#",
     githubUrl: "#"
   },
 ];
 
-const Projects = () => {
+const Projects = ({ onModalChange }: ProjectsProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    onModalChange?.(!!selectedProject);
+    if (!selectedProject) {
+      setCurrentImageIndex(0);
+    }
+  }, [selectedProject, onModalChange]);
+
+  const nextImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedProject.images.length - 1 : prev - 1
+      );
+    }
+  };
 
   return (
     <section id="projects" className="py-24 px-4">
@@ -95,7 +139,7 @@ const Projects = () => {
                 {/* Project Image */}
                 <div
                   className="h-48 w-full"
-                  style={{ background: project.image }}
+                  style={{ background: project.images[0] }}
                 />
                 
                 {/* Content */}
@@ -159,11 +203,53 @@ const Projects = () => {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Image */}
-              <div
-                className="h-[19rem] w-full"
-                style={{ background: selectedProject.image }}
-              />
+              {/* Carousel */}
+              <div className="relative h-[19rem] w-full overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentImageIndex}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0"
+                    style={{ background: selectedProject.images[currentImageIndex] }}
+                  />
+                </AnimatePresence>
+
+                {/* Carousel Controls */}
+                {selectedProject.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors z-10"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors z-10"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+
+                    {/* Dots */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                      {selectedProject.images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentImageIndex(idx)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            idx === currentImageIndex 
+                              ? "bg-white w-6" 
+                              : "bg-white/50 hover:bg-white/75"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
 
               {/* Content */}
               <div className="p-8">
