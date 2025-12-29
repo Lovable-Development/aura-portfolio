@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Home, Code2, FolderOpen, Mail, Github, FileText, ExternalLink, Download } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Home,
+  Code2,
+  FolderOpen,
+  Mail,
+  Github,
+  FileText,
+  ExternalLink,
+  Download,
+  X,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +27,8 @@ const navItems = [
 ];
 
 // Replace this with your actual Google Drive resume link
-const RESUME_DRIVE_LINK = "https://drive.google.com/file/d/YOUR_FILE_ID/view";
+const RESUME_DRIVE_LINK =
+  "https://drive.google.com/file/d/1n7KbHmZt-BFzSmdmI1wxzkIC-8unTk4_/preview";
 
 // Convert Google Drive view link to embed link
 const getEmbedLink = (driveLink: string) => {
@@ -92,11 +103,17 @@ const Navigation = () => {
                       <motion.div
                         layoutId="activeTab"
                         className="absolute inset-0 bg-primary rounded-full"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
                       />
                     )}
                     <item.icon className="relative z-10 w-4 h-4" />
-                    <span className="relative z-10 hidden sm:inline">{item.label}</span>
+                    <span className="relative z-10 hidden sm:inline">
+                      {item.label}
+                    </span>
                   </button>
                 </li>
               );
@@ -115,42 +132,63 @@ const Navigation = () => {
         </div>
       </motion.nav>
 
-      {/* Resume Modal */}
-      <Dialog open={isResumeOpen} onOpenChange={setIsResumeOpen}>
-        <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0 overflow-hidden bg-background/95 backdrop-blur-xl border-border/50">
-          <DialogHeader className="p-4 border-b border-border/50 flex flex-row items-center justify-between">
-            <DialogTitle className="text-lg font-semibold tracking-tight">My Resume</DialogTitle>
-            <div className="flex items-center gap-4 mr-8">
-              <a
-                href={getDownloadLink(RESUME_DRIVE_LINK)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
-              >
-                <Download className="w-4 h-4" />
-                Download
-              </a>
-              <a
-                href={RESUME_DRIVE_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Open in Drive
-              </a>
-            </div>
-          </DialogHeader>
-          <div className="flex-1 h-full">
-            <iframe
-              src={getEmbedLink(RESUME_DRIVE_LINK)}
-              className="w-full h-[calc(90vh-60px)]"
-              allow="autoplay"
-              title="Resume Preview"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
+      <AnimatePresence>
+        {isResumeOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/20 backdrop-blur-sm overflow-hidden border-border/50 rounded-md"
+            onClick={() => setIsResumeOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full h-[90vh] max-w-2xl bg-background rounded-3xl shadow-modal overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-end items-center gap-4 mr-4 my-2">
+                <a
+                  href={getDownloadLink(RESUME_DRIVE_LINK)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                >
+                  <Download className="w-4 h-4" />
+                  Download
+                </a>
+                <a
+                  href={RESUME_DRIVE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Open in Drive
+                </a>
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsResumeOpen(false)}
+                  className="flex items-center justify-center p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <hr className="border-2 mt-2 border-black w-full"></hr>
+              <div className="flex-1 h-full">
+                <iframe
+                  src={getEmbedLink(RESUME_DRIVE_LINK)}
+                  className="w-full h-[calc(90vh-60px)]"
+                  allow="autoplay"
+                  title="Resume Preview"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
