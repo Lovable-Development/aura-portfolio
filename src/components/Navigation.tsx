@@ -144,8 +144,9 @@ const Navigation = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-row justify-between items-center ">
-                <div className="flex justify-start items-center gap-4 ml-4 my-2">
-                  <h1 className="text-xl md:text-2xl font-semibold text-black tracking-tight">My Resume</h1>
+                <div className="flex justify-start items-center gap-2 ml-4 my-2">
+                  <FileText className="w-6 h-6" />
+                  <h1 className="text-xl md:text-xl font-medium text-black tracking-tight">Resume</h1>
                 </div>
                 <div className="flex justify-end items-center gap-2 mr-4 my-2">
                   <a
