@@ -72,8 +72,8 @@ const GitHubCompare = () => {
       );
       const totalCommitsData = await totalCommitsRes.json();
       console.log(totalCommitsData);
-      const totalCommits = Object.values(totalCommitsData.total).reduce(
-        (sum : number, commits : number) => sum + commits,
+      const totalCommits = Object.values(totalCommitsData.total as Record<string, number>).reduce(
+        (sum: number, commits: number) => sum + commits,
         0
       );
 

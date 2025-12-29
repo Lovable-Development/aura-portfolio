@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Hero from "@/components/Hero";
 import GravitySkills from "@/components/GravitySkills";
 import GitHubCompare from "@/components/GitHubCompare";
@@ -6,14 +7,16 @@ import Contact from "@/components/Contact";
 import Navigation from "@/components/Navigation";
 
 const Index = () => {
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-background">
       <Hero />
       <GravitySkills />
       <GitHubCompare />
-      <Projects />
+      <Projects onModalChange={setIsProjectModalOpen} />
       <Contact />
-      <Navigation />
+      {!isProjectModalOpen && <Navigation />}
     </main>
   );
 };
