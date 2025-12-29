@@ -11,12 +11,6 @@ import {
   Download,
   X,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const navItems = [
   { id: "hero", icon: Home, label: "Home" },
@@ -149,32 +143,37 @@ const Navigation = () => {
               className="relative w-full h-[90vh] max-w-2xl bg-background rounded-3xl shadow-modal overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-end items-center gap-4 mr-4 my-2">
-                <a
-                  href={getDownloadLink(RESUME_DRIVE_LINK)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
-                >
-                  <Download className="w-4 h-4" />
-                  Download
-                </a>
-                <a
-                  href={RESUME_DRIVE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Open in Drive
-                </a>
-                {/* Close Button */}
-                <button
-                  onClick={() => setIsResumeOpen(false)}
-                  className="flex items-center justify-center p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+              <div className="flex flex-row justify-between items-center ">
+                <div className="flex justify-start items-center gap-4 ml-4 my-2">
+                  <h1 className="text-xl md:text-2xl font-semibold text-black tracking-tight">My Resume</h1>
+                </div>
+                <div className="flex justify-end items-center gap-2 mr-4 my-2">
+                  <a
+                    href={getDownloadLink(RESUME_DRIVE_LINK)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download
+                  </a>
+                  <a
+                    href={RESUME_DRIVE_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Drive
+                  </a>
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setIsResumeOpen(false)}
+                    className="flex items-center justify-center p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
               <hr className="border-2 mt-2 border-black w-full"></hr>
               <div className="flex-1 h-full">
