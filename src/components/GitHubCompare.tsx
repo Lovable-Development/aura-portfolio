@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Users, Star, GitFork, Loader2, ArrowRight, Zap } from "lucide-react";
+import {
+  Github,
+  Users,
+  Star,
+  GitFork,
+  Loader2,
+  ArrowRight,
+  Zap,
+  HandHelping,
+} from "lucide-react";
 
 interface GitHubStats {
   username: string;
@@ -11,6 +20,7 @@ interface GitHubStats {
   followers: number;
   following: number;
   totalStars: number;
+  totalCommits: number;
 }
 
 const MY_USERNAME = "sachinxcode313";
@@ -30,23 +40,48 @@ const GitHubCompare = () => {
   const [error, setError] = useState("");
   const [hasCompared, setHasCompared] = useState(false);
 
-  const fetchGitHubStats = async (username: string): Promise<GitHubStats | null> => {
+  const fetchGitHubStats = async (
+    username: string
+  ): Promise<GitHubStats | null> => {
     try {
       // Extract username if full URL is provided
       let cleanUsername = username;
       if (username.includes("github.com/")) {
-        cleanUsername = username.split("github.com/").pop()?.split("/")[0] || username;
+        cleanUsername =
+          username.split("github.com/").pop()?.split("/")[0] || username;
       }
-      
-      const userRes = await fetch(`https://api.github.com/users/${cleanUsername}`);
+
+      const userRes = await fetch(
+        `https://api.github.com/users/${cleanUsername}`
+      );
       if (!userRes.ok) throw new Error("User not found");
       const userData = await userRes.json();
 
-      const reposRes = await fetch(`https://api.github.com/users/${cleanUsername}/repos?per_page=100`);
+      const reposRes = await fetch(
+        `https://api.github.com/users/${cleanUsername}/repos?per_page=100`
+      );
       const reposData = await reposRes.json();
       const totalStars = Array.isArray(reposData)
-        ? reposData.reduce((acc: number, repo: any) => acc + (repo.stargazers_count || 0), 0)
+        ? reposData.reduce(
+            (acc: number, repo: any) => acc + (repo.stargazers_count || 0),
+            0
+          )
         : 0;
+      const totalCommitsRes = await fetch(
+        `https://github-contributions-api.jogruber.de/v4/${cleanUsername}`
+      );
+      const totalCommitsData = await totalCommitsRes.json();
+      console.log(totalCommitsData);
+      const totalCommits = Object.values(totalCommitsData.total).reduce(
+        (sum : number, commits : number) => sum + commits,
+        0
+      );
+
+
+      // const totalCommits = Array.isArray(totalCommitsData)
+      //   ? totalCommitsData.filter((event: any) => event.type === "PushEvent")
+      //       .length
+      //   : 0;
 
       return {
         username: userData.login,
@@ -57,6 +92,7 @@ const GitHubCompare = () => {
         followers: userData.followers,
         following: userData.following,
         totalStars,
+        totalCommits
       };
     } catch {
       return null;
@@ -78,7 +114,9 @@ const GitHubCompare = () => {
     ]);
 
     if (!myData || !visitorData) {
-      setError(visitorData ? "Could not fetch host profile" : "Username not found");
+      setError(
+        visitorData ? "Could not fetch host profile" : "Username not found"
+      );
       setLoading(false);
       return;
     }
@@ -116,13 +154,15 @@ const GitHubCompare = () => {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 hover-lift">
           {/* Subtle gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
+
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
                 <Icon className="w-5 h-5 text-foreground" />
               </div>
-              <span className="text-sm font-medium text-foreground">{label}</span>
+              <span className="text-sm font-medium text-foreground">
+                {label}
+              </span>
             </div>
 
             {/* Values */}
@@ -138,7 +178,9 @@ const GitHubCompare = () => {
                 </motion.p>
                 <p className="text-xs text-muted-foreground mt-1">Host</p>
               </div>
-              <div className="text-2xl text-muted-foreground/30 font-light">vs</div>
+              <div className="text-2xl text-muted-foreground/30 font-light">
+                vs
+              </div>
               <div className="text-center">
                 <motion.p
                   initial={{ scale: 0 }}
@@ -157,7 +199,11 @@ const GitHubCompare = () => {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${myPercent}%` }}
-                transition={{ delay: delay + 0.4, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{
+                  delay: delay + 0.4,
+                  duration: 0.8,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
                 className="absolute left-0 top-0 h-full bg-foreground rounded-full"
               />
             </div>
@@ -172,7 +218,10 @@ const GitHubCompare = () => {
   };
 
   return (
-    <section id="github-compare" className="relative py-24 px-4 overflow-hidden">
+    <section
+      id="buddy"
+      className="relative py-24 px-4 overflow-hidden"
+    >
       {/* Grid Background like Hero */}
       <div className="absolute inset-0 grid-background opacity-30" />
 
@@ -213,7 +262,7 @@ const GitHubCompare = () => {
             viewport={{ once: true }}
             className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4"
           >
-            Just for fun 💛
+            Just for fun
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -291,10 +340,20 @@ const GitHubCompare = () => {
               className="space-y-8"
             >
               {/* Profile Cards - Side by Side */}
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-24 md:gap-6 mt-28">
                 {[
-                  { stats: myStats, isHost: true, gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-                  { stats: visitorStats, isHost: false, gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
+                  {
+                    stats: myStats,
+                    isHost: true,
+                    gradient:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  },
+                  {
+                    stats: visitorStats,
+                    isHost: false,
+                    gradient:
+                      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                  },
                 ].map(({ stats, isHost, gradient }, idx) => (
                   <motion.div
                     key={stats.username}
@@ -303,18 +362,31 @@ const GitHubCompare = () => {
                     transition={{ delay: idx * 0.15, duration: 0.5 }}
                     className="group relative"
                   >
-                    <div className="relative overflow-hidden rounded-2xl border border-border bg-card hover-lift">
+                    <div className="relative rounded-2xl border border-border bg-card hover-lift">
                       {/* Top gradient bar */}
-                      <div className="h-24 w-full" style={{ background: gradient }} />
-                      
+                      {/* <div
+                        className="h-14 w-full"
+                        style={{ background: gradient }}
+                      /> */}
+
                       {/* Avatar overlapping the gradient */}
-                      <div className="absolute top-12 left-1/2 -translate-x-1/2">
+                      <div className="absolute -top-20 left-1/2 -translate-x-1/2">
                         <div className="relative">
-                          <img
-                            src={stats.avatar}
-                            alt={stats.name}
-                            className="w-24 h-24 rounded-full border-4 border-background shadow-lg"
-                          />
+                          <motion.div
+                            animate={{
+                              y: [0, -10, 0],
+                              rotate: [0, 5, 0, -5, 0],
+                            }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                          >
+                            {/* <Github className="w-12 h-12 text-muted-foreground/30" /> */}
+                            <img
+                              src={stats.avatar}
+                              alt={stats.name}
+                              className="w-[9rem] rounded-full border-2 border-[#fefefe] shadow-lg "
+                            />
+                          </motion.div>
+
                           {isHost && (
                             <motion.span
                               initial={{ scale: 0 }}
@@ -331,15 +403,16 @@ const GitHubCompare = () => {
 
                       {/* Content */}
                       <div className="pt-16 pb-6 px-6 text-center">
-                        <h3 className="text-xl font-semibold tracking-tight">{stats.name}</h3>
+                        <h3 className="text-xl font-semibold tracking-tight">
+                          {stats.name}
+                        </h3>
                         <a
                           href={`https://github.com/${stats.username}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mt-1"
                         >
-                          <Github className="w-3 h-3" />
-                          @{stats.username}
+                          <Github className="w-3 h-3" />@{stats.username}
                         </a>
                         <p className="mt-3 text-sm text-muted-foreground line-clamp-2 font-light">
                           {stats.bio}
@@ -367,6 +440,13 @@ const GitHubCompare = () => {
               {/* Stats Grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard
+                  label="Contributions"
+                  icon={HandHelping}
+                  myValue={myStats.totalCommits}
+                  theirValue={visitorStats.totalCommits}
+                  delay={0.5}
+                />
+                <StatCard
                   label="Repositories"
                   icon={GitFork}
                   myValue={myStats.publicRepos}
@@ -386,13 +466,6 @@ const GitHubCompare = () => {
                   myValue={myStats.followers}
                   theirValue={visitorStats.followers}
                   delay={0.7}
-                />
-                <StatCard
-                  label="Following"
-                  icon={Users}
-                  myValue={myStats.following}
-                  theirValue={visitorStats.following}
-                  delay={0.8}
                 />
               </div>
 
@@ -423,9 +496,9 @@ const GitHubCompare = () => {
             className="text-center py-16"
           >
             <motion.div
-              animate={{ 
+              animate={{
                 y: [0, -10, 0],
-                rotate: [0, 5, 0, -5, 0]
+                rotate: [0, 5, 0, -5, 0],
               }}
               transition={{ duration: 4, repeat: Infinity }}
               className="inline-flex items-center justify-center w-24 h-24 rounded-full border-2 border-dashed border-border mb-6"

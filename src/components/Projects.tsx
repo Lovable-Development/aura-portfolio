@@ -161,7 +161,7 @@ const Projects = () => {
 
               {/* Image */}
               <div
-                className="h-56 w-full"
+                className="h-[19rem] w-full"
                 style={{ background: selectedProject.image }}
               />
 

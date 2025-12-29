@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {Phone, Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Send,
+  Github,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
 import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +24,28 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Send Email Using EmailJS
+    const serviceID = import.meta.env.VITE_SERVICE_ID;
+    const templateID = import.meta.env.VITE_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+
+  console.log("env : ",serviceID,templateID,publicKey);
+    var templateParams = {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    };
+
+    await emailjs.send(serviceID, templateID, templateParams,{
+      publicKey: publicKey
+    }).then(
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+      },
+      (error) => {
+        console.log("FAILED...", error);
+      }
+    );
 
     toast.success("Message sent successfully!", {
       description: "I'll get back to you as soon as possible.",
@@ -36,9 +65,17 @@ const Contact = () => {
   };
 
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
+    {
+      icon: Github,
+      href: "https://github.com/sachinxcode313",
+      label: "GitHub",
+    },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/sachingupta313/",
+      label: "LinkedIn",
+    },
+    { icon: Twitter, href: "https://x.com/Sachin_Gupta313", label: "Twitter" },
   ];
 
   return (
@@ -112,7 +149,7 @@ const Contact = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors hover-lift"
+                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center transition duration-300 ease-in-out hover:bg-secondary transition-colors hover:hover-lift"
                   >
                     <social.icon className="w-5 h-5" />
                   </a>

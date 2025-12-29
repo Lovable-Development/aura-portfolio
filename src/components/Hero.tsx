@@ -46,14 +46,14 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
-        {/* <motion.div
+        <motion.div
           className="mt-3 flex items-center justify-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Parallax />
-        </motion.div> */}
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

@@ -22,6 +22,8 @@ const GravitySkills = () => {
   const engineRef = useRef<Matter.Engine | null>(null);
   const [skillPositions, setSkillPositions] = useState<{ x: number; y: number; angle: number; id: number }[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [gyroEnabled, setGyroEnabled] = useState(false);
+  const [gyroSupported, setGyroSupported] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current || !canvasRef.current) return;
@@ -155,6 +157,42 @@ const GravitySkills = () => {
     Matter.Composite.add(engine.world, mouseConstraint);
     render.mouse = mouse;
 
+    // Gyroscope control
+    const clamp = (value: number, min: number, max: number) => {
+      return Math.min(Math.max(value, min), max);
+    };
+
+    const updateGravity = (event: DeviceOrientationEvent) => {
+      if (!gyroEnabled || !engineRef.current) return;
+
+      const orientation = typeof window.orientation !== 'undefined' ? window.orientation : 0;
+      const gravity = engineRef.current.gravity;
+      const beta = event.beta || 0;
+      const gamma = event.gamma || 0;
+
+      if (orientation === 0) {
+        gravity.x = clamp(gamma, -90, 90) / 90;
+        gravity.y = clamp(beta, -90, 90) / 90;
+      } else if (orientation === 180) {
+        gravity.x = clamp(gamma, -90, 90) / 90;
+        gravity.y = clamp(-beta, -90, 90) / 90;
+      } else if (orientation === 90) {
+        gravity.x = clamp(beta, -90, 90) / 90;
+        gravity.y = clamp(-gamma, -90, 90) / 90;
+      } else if (orientation === -90) {
+        gravity.x = clamp(-beta, -90, 90) / 90;
+        gravity.y = clamp(gamma, -90, 90) / 90;
+      }
+    };
+
+    // Check if gyroscope is supported
+    if (typeof window !== 'undefined' && 'DeviceOrientationEvent' in window) {
+      setGyroSupported(true);
+    }
+
+    // Add event listener for gyroscope
+    window.addEventListener('deviceorientation', updateGravity);
+
     // Update skill positions smoothly
     const updatePositions = () => {
       const positions = bodies.map((body, id) => ({
@@ -205,8 +243,37 @@ const GravitySkills = () => {
       Matter.Render.stop(render);
       Matter.World.clear(engine.world, false);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener('deviceorientation', updateGravity);
     };
-  }, []);
+  }, [gyroEnabled]);
+
+  const handleGyroToggle = async () => {
+    if (!gyroEnabled) {
+      // Request permission for iOS 13+
+      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+        try {
+          const permission = await (DeviceOrientationEvent as any).requestPermission();
+          if (permission === 'granted') {
+            setGyroEnabled(true);
+          } else {
+            alert('Permission to access device orientation was denied');
+          }
+        } catch (error) {
+          console.error('Error requesting device orientation permission:', error);
+        }
+      } else {
+        // Non-iOS devices or older iOS versions
+        setGyroEnabled(true);
+      }
+    } else {
+      setGyroEnabled(false);
+      // Reset gravity to default
+      if (engineRef.current) {
+        engineRef.current.gravity.x = 0;
+        engineRef.current.gravity.y = 0.8;
+      }
+    }
+  };
 
   return (
     <section id="skills" className="py-24 px-4 bg-gradient-to-b from-background to-secondary/20">
@@ -264,7 +331,29 @@ const GravitySkills = () => {
           <div className="absolute top-4 left-4 text-xs text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 px-3 py-2 rounded-lg backdrop-blur-sm border border-gray-300 dark:border-gray-600">
             💡 Drag & drop to interact • Stack them up!
           </div>
+
+          {/* Gyroscope Toggle Button */}
+          {gyroSupported && (
+            <div className="absolute top-4 right-4">
+              <button
+                onClick={handleGyroToggle}
+                className={`text-xs font-medium px-4 py-2 rounded-lg backdrop-blur-sm border transition-all ${
+                  gyroEnabled
+                    ? 'bg-blue-500 text-white border-blue-600 hover:bg-blue-600'
+                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-white dark:hover:bg-gray-800'
+                }`}
+              >
+                📱 Gyro: {gyroEnabled ? 'ON' : 'OFF'}
+              </button>
+            </div>
+          )}
         </div>
+
+        {gyroSupported && (
+          <p className="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+            {gyroEnabled ? '🎮 Tilt your device to control gravity!' : '📱 Enable gyroscope to tilt and play'}
+          </p>
+        )}
       </div>
     </section>
   );
