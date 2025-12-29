@@ -29,23 +29,25 @@ const Contact = () => {
     const templateID = import.meta.env.VITE_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_PUBLIC_KEY;
 
-  console.log("env : ",serviceID,templateID,publicKey);
+    console.log("env : ", serviceID, templateID, publicKey);
     var templateParams = {
       name: formData.name,
       email: formData.email,
       message: formData.message,
     };
 
-    await emailjs.send(serviceID, templateID, templateParams,{
-      publicKey: publicKey
-    }).then(
-      (response) => {
-        console.log("SUCCESS!", response.status, response.text);
-      },
-      (error) => {
-        console.log("FAILED...", error);
-      }
-    );
+    await emailjs
+      .send(serviceID, templateID, templateParams, {
+        publicKey: publicKey,
+      })
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        (error) => {
+          console.log("FAILED...", error);
+        }
+      );
 
     toast.success("Message sent successfully!", {
       description: "I'll get back to you as soon as possible.",
@@ -79,7 +81,9 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-24 px-4 pb-40">
+    <section id="contact" className="relative py-24 px-4 pb-40">
+      {/* Grid Background like Hero */}
+      <div className="absolute inset-0 grid-background opacity-60 z-0" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -87,7 +91,7 @@ const Contact = () => {
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto"
       >
-        <div className="text-center mb-16">
+        <div className="relative text-center mb-16 z-10">
           <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4">
             Get in Touch
           </p>
@@ -99,7 +103,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="relative grid md:grid-cols-2 gap-12">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

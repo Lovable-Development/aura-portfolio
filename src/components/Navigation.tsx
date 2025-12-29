@@ -21,8 +21,7 @@ const navItems = [
 ];
 
 // Replace this with your actual Google Drive resume link
-const RESUME_DRIVE_LINK =
-  "https://drive.google.com/file/d/1n7KbHmZt-BFzSmdmI1wxzkIC-8unTk4_/preview";
+const RESUME_DRIVE_LINK = import.meta.env.VITE_RESUME_DRIVE_LINK;
 
 // Convert Google Drive view link to embed link
 const getEmbedLink = (driveLink: string) => {
