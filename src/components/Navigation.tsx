@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Home, Code2, FolderOpen, Mail, Github, FileText, ExternalLink } from "lucide-react";
+import { Home, Code2, FolderOpen, Mail, Github, FileText, ExternalLink, Download } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -24,6 +24,15 @@ const getEmbedLink = (driveLink: string) => {
   const match = driveLink.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (match) {
     return `https://drive.google.com/file/d/${match[1]}/preview`;
+  }
+  return driveLink;
+};
+
+// Convert Google Drive view link to download link
+const getDownloadLink = (driveLink: string) => {
+  const match = driveLink.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) {
+    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
   }
   return driveLink;
 };
@@ -111,15 +120,26 @@ const Navigation = () => {
         <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0 overflow-hidden bg-background/95 backdrop-blur-xl border-border/50">
           <DialogHeader className="p-4 border-b border-border/50 flex flex-row items-center justify-between">
             <DialogTitle className="text-lg font-semibold tracking-tight">My Resume</DialogTitle>
-            <a
-              href={RESUME_DRIVE_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mr-8"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open in Drive
-            </a>
+            <div className="flex items-center gap-4 mr-8">
+              <a
+                href={getDownloadLink(RESUME_DRIVE_LINK)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+              >
+                <Download className="w-4 h-4" />
+                Download
+              </a>
+              <a
+                href={RESUME_DRIVE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Open in Drive
+              </a>
+            </div>
           </DialogHeader>
           <div className="flex-1 h-full">
             <iframe
