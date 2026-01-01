@@ -1,23 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Home,
   Code2,
   FolderOpen,
-  Mail,
+  User,
   Github,
   FileText,
   ExternalLink,
   Download,
   X,
+  Volume2,
+  VolumeOff,
+  BriefcaseBusiness
 } from "lucide-react";
+import { useAudio } from "@/hooks/use-audio";
 
 const navItems = [
   { id: "hero", icon: Home, label: "Home" },
   { id: "skills", icon: Code2, label: "Skills" },
   { id: "buddy", icon: Github, label: "Buddy" },
   { id: "projects", icon: FolderOpen, label: "Projects" },
-  { id: "contact", icon: Mail, label: "Contact" },
+  { id: "experience", icon: BriefcaseBusiness, label: "Experience" },
+  { id: "contact", icon: User, label: "Contact" },
 ];
 
 // Replace this with your actual Google Drive resume link
@@ -44,6 +49,35 @@ const getDownloadLink = (driveLink: string) => {
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(true);
+  // const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { playAudio, isPlaying } = useAudio();
+
+  // useEffect(() => {
+  //   audioRef.current = new Audio("/audio/space_sound1.mp3");
+  //   audioRef.current.loop = true;
+  //   audioRef.current.volume = 0.4;
+
+  //   audioRef.current.play().catch(() => {
+  //     setIsPlaying(false);
+  //   });
+
+  //   return () => {
+  //     audioRef.current?.pause();
+  //   };
+  // }, []);
+
+  // const toggleSound = () => {
+  //   if (!audioRef.current) return;
+
+  //   if (isPlaying) {
+  //     audioRef.current.pause();
+  //   } else {
+  //     audioRef.current.play();
+  //   }
+
+  //   setIsPlaying(!isPlaying);
+  // };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +112,7 @@ const Navigation = () => {
         transition={{ delay: 0.8, duration: 0.5 }}
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
       >
-        <div className="glass-panel px-2 py-2 rounded-full shadow-soft">
+        <div className="glass-panel px-2 py-2 rounded-full shadow-soft border-2">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
@@ -103,7 +137,7 @@ const Navigation = () => {
                         }}
                       />
                     )}
-                    <item.icon className="relative z-10 w-4 h-4" />
+                    <item.icon className="relative z-10 w-5 h-5" />
                     <span className="relative z-10 hidden sm:inline">
                       {item.label}
                     </span>
@@ -117,8 +151,22 @@ const Navigation = () => {
                 onClick={() => setIsResumeOpen(true)}
                 className="relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="relative z-10 w-5 h-5" />
                 <span className="hidden sm:inline">Resume</span>
+              </button>
+            </li>
+            {/* Sound Toggle Button */}
+            <li>
+              <button
+                onClick={playAudio}
+                className="relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
+              >
+                {isPlaying ? (
+                  <Volume2 className="relative z-10 w-5 h-5" />
+                ) : (
+                  <VolumeOff className="relative z-10 w-5 h-5" />
+                )}
+                <span className="hidden sm:inline">Sound</span>
               </button>
             </li>
           </ul>
@@ -145,7 +193,9 @@ const Navigation = () => {
               <div className="flex flex-row justify-between items-center ">
                 <div className="flex justify-start items-center gap-2 ml-4 my-2">
                   <FileText className="w-6 h-6" />
-                  <h1 className="text-xl md:text-xl font-medium text-black tracking-tight">Resume</h1>
+                  <h1 className="text-xl md:text-xl font-medium text-black tracking-tight">
+                    Resume
+                  </h1>
                 </div>
                 <div className="flex justify-end items-center gap-2 mr-4 my-2">
                   <a

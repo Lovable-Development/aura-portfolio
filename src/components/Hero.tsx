@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Parallax from "./Parallax";
+import { useSound } from "@/hooks/use-sound";
 
 const floatingSymbols = [
   { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
@@ -11,6 +12,7 @@ const floatingSymbols = [
 ];
 
 const Hero = () => {
+  const { playHover, playClick } = useSound();
   return (
     <section
       id="hero"
@@ -92,6 +94,8 @@ const Hero = () => {
           <a
             href="#projects"
             className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift"
+            onMouseEnter={playHover}
+            onClick={playClick}
           >
             View Work
           </a>

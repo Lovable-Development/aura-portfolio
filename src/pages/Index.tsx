@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import GravitySkills from "@/components/GravitySkills";
 import GitHubCompare from "@/components/GitHubCompare";
@@ -11,12 +11,12 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background">
-      <Hero />
-      <GravitySkills />
-      <GitHubCompare />
-      <Projects onModalChange={setIsProjectModalOpen} />
-      <Contact />
-      {!isProjectModalOpen && <Navigation />}
+          <Hero />
+          <GravitySkills />
+          <GitHubCompare />
+          <Projects onModalChange={setIsProjectModalOpen} />
+          <Contact />
+          {!isProjectModalOpen && <Navigation />}
     </main>
   );
 };
