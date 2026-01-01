@@ -71,6 +71,33 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
 
           {/* Center content */}
           <div className="relative flex flex-col items-center gap-8">
+            {/* Animated Eyes */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex gap-6"
+            >
+              {[0, 1].map((eyeIndex) => (
+                <div
+                  key={eyeIndex}
+                  className="relative w-12 h-12 md:w-16 md:h-16 rounded-full bg-background border-2 border-foreground flex items-center justify-center overflow-hidden"
+                >
+                  {/* Eyeball */}
+                  <motion.div
+                    className="absolute w-5 h-5 md:w-6 md:h-6 rounded-full bg-foreground flex items-center justify-center"
+                    animate={{
+                      x: (progress / 100) * 12 - 6,
+                    }}
+                    transition={{ ease: 'linear', duration: 0.1 }}
+                  >
+                    {/* Pupil highlight */}
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-background absolute top-1 right-1" />
+                  </motion.div>
+                </div>
+              ))}
+            </motion.div>
+
             {/* Name with stagger animation */}
             <motion.div className="flex overflow-hidden">
               {'PORTFOLIO'.split('').map((letter, i) => (
