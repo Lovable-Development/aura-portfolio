@@ -6,19 +6,27 @@ import GitHubCompare from "@/components/GitHubCompare";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Navigation from "@/components/Navigation";
+import Preloader from "@/components/Preloader";
 
 const Index = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <main className="min-h-screen bg-background">
+      {isLoading ? (
+        <Preloader onComplete={() => setIsLoading(false)} />
+      ) : (
+        <>
           <Hero />
           <GravitySkills />
-          <Experience />
           <GitHubCompare />
+          <Experience />
           <Projects onModalChange={setIsProjectModalOpen} />
           <Contact />
           {!isProjectModalOpen && <Navigation />}
+        </>
+      )}
     </main>
   );
 };

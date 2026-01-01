@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { BriefcaseBusiness, Calendar, MapPin } from 'lucide-react';
 
 interface ExperienceItem {
   id: number;
@@ -14,36 +14,36 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     id: 1,
-    role: "Senior Developer",
-    company: "Tech Corp",
-    location: "San Francisco, CA",
-    duration: "2023 - Present",
+    role: "Zoho Developer",
+    company: "Tempsens",
+    location: "Udaipur, India ",
+    duration: "Oct 2025 - Present",
     description: "Leading frontend architecture and mentoring junior developers.",
-    skills: ["React", "TypeScript", "Node.js"],
+    skills: ["Zoho", "Automations", "Node.js"],
   },
   {
     id: 2,
-    role: "Full Stack Developer",
-    company: "StartupXYZ",
-    location: "New York, NY",
+    role: "Software Developer Intern",
+    company: "Nessco India",
+    location: "Jaipur, India",
     duration: "2021 - 2023",
     description: "Built scalable web applications using React and Node.js.",
     skills: ["React", "MongoDB", "AWS"],
   },
   {
     id: 3,
-    role: "Frontend Developer",
-    company: "Digital Agency",
-    location: "Austin, TX",
+    role: "Backend Developer",
+    company: "CodeUp",
+    location: "Jaipur, India",
     duration: "2019 - 2021",
     description: "Crafted responsive interfaces and improved UX performance.",
-    skills: ["Vue.js", "SCSS", "Figma"],
+    skills: ["Node.js", "SQL", "Database Design", "REST APIs"],
   },
   {
     id: 4,
-    role: "Junior Developer",
-    company: "WebStudio",
-    location: "Remote",
+    role: "Software Developer Intern",
+    company: "Nessco India",
+    location: "Jaipur, India",
     duration: "2018 - 2019",
     description: "Developed landing pages and maintained client websites.",
     skills: ["HTML", "CSS", "JavaScript"],
@@ -62,7 +62,7 @@ const Experience = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Experience
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto">
@@ -89,13 +89,13 @@ const Experience = () => {
                 }`}
               >
                 {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-foreground border-4 border-background -translate-x-1/2 mt-6 z-10" />
+                <div className="absolute left-4 md:left-1/2 w-5 h-5 rounded-full bg-background border-4 border-primary -translate-x-1/2 mt-6 z-10" />
 
                 {/* Content card */}
                 <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
                   <motion.div
                     whileHover={{ y: -4 }}
-                    className="glass-panel rounded-2xl p-6 hover:shadow-lg transition-all duration-300"
+                    className="glass-panel  rounded-2xl bg-secondary border border-border p-6 hover:shadow-lg transition-all duration-300"
                   >
                     {/* Duration badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-xs font-medium text-foreground mb-4">
@@ -106,7 +106,7 @@ const Experience = () => {
                     {/* Role & Company */}
                     <div className="flex items-start gap-3 mb-3">
                       <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
-                        <Briefcase className="w-5 h-5 text-foreground" />
+                        <BriefcaseBusiness className="w-5 h-5 text-foreground" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-foreground">
@@ -134,7 +134,7 @@ const Experience = () => {
                       {exp.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-1 text-xs rounded-md bg-secondary/50 text-muted-foreground"
+                          className="px-2 py-1 text-xs rounded-md bg-secondary text-muted-foreground"
                         >
                           {skill}
                         </span>

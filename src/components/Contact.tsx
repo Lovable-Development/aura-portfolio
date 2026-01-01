@@ -153,7 +153,7 @@ const Contact = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center transition duration-300 ease-in-out hover:bg-secondary transition-colors hover:hover-lift"
+                    className="w-12 h-12 rounded-full border border-border flex items-center justify-center transition duration-300 ease-in-out hover:bg-secondary hover-lift hover:shadow-lg"
                   >
                     <social.icon className="w-5 h-5" />
                   </a>

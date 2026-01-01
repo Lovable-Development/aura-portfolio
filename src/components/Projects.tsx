@@ -166,7 +166,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
             Portfolio
           </p>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">
-            Selected Projects
+            Projects
           </h2>
         </div>
 
@@ -181,7 +181,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               onClick={() => setSelectedProject(project)}
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-card hover-lift">
+              <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border  hover-lift">
                 {/* Project Image */}
                 {/* <div
                   className="h-48 w-full"

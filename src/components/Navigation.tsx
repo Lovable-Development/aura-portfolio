@@ -20,8 +20,8 @@ const navItems = [
   { id: "hero", icon: Home, label: "Home" },
   { id: "skills", icon: Code2, label: "Skills" },
   { id: "buddy", icon: Github, label: "Buddy" },
-  { id: "projects", icon: FolderOpen, label: "Projects" },
   { id: "experience", icon: BriefcaseBusiness, label: "Experience" },
+  { id: "projects", icon: FolderOpen, label: "Projects" },
   { id: "contact", icon: User, label: "Contact" },
 ];
 

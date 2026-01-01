@@ -223,7 +223,7 @@ const GitHubCompare = () => {
       className="relative py-24 px-4 overflow-hidden"
     >
       {/* Grid Background like Hero */}
-      <div className="absolute inset-0 grid-background opacity-60" />
+      <div className="absolute inset-0 grid-background opacity-80" />
 
       {/* Floating Symbols */}
       {floatingSymbols.map((item, index) => (
@@ -271,7 +271,7 @@ const GitHubCompare = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-semibold tracking-tight"
           >
-            GitHub Buddy Compare
+            GitHub Buddy
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
