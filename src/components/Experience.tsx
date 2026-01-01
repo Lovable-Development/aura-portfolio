@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar } from 'lucide-react';
+import { Briefcase, Calendar, MapPin } from 'lucide-react';
 
 interface ExperienceItem {
   id: number;
   role: string;
   company: string;
+  location: string;
   duration: string;
   description: string;
+  skills: string[];
 }
 
 const experiences: ExperienceItem[] = [
@@ -14,36 +16,44 @@ const experiences: ExperienceItem[] = [
     id: 1,
     role: "Senior Developer",
     company: "Tech Corp",
+    location: "San Francisco, CA",
     duration: "2023 - Present",
     description: "Leading frontend architecture and mentoring junior developers.",
+    skills: ["React", "TypeScript", "Node.js"],
   },
   {
     id: 2,
     role: "Full Stack Developer",
     company: "StartupXYZ",
+    location: "New York, NY",
     duration: "2021 - 2023",
     description: "Built scalable web applications using React and Node.js.",
+    skills: ["React", "MongoDB", "AWS"],
   },
   {
     id: 3,
     role: "Frontend Developer",
     company: "Digital Agency",
+    location: "Austin, TX",
     duration: "2019 - 2021",
     description: "Crafted responsive interfaces and improved UX performance.",
+    skills: ["Vue.js", "SCSS", "Figma"],
   },
   {
     id: 4,
     role: "Junior Developer",
     company: "WebStudio",
+    location: "Remote",
     duration: "2018 - 2019",
     description: "Developed landing pages and maintained client websites.",
+    skills: ["HTML", "CSS", "JavaScript"],
   },
 ];
 
 const Experience = () => {
   return (
     <section id="experience" className="py-24 md:py-32 px-6 bg-background overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,79 +70,85 @@ const Experience = () => {
           </p>
         </motion.div>
 
-        {/* Horizontal Timeline */}
+        {/* Timeline */}
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-border -translate-y-1/2 hidden md:block" />
+          {/* Vertical line */}
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
 
-          {/* Scrollable container */}
-          <div className="flex gap-6 md:gap-0 overflow-x-auto pb-8 md:pb-0 scrollbar-hide snap-x snap-mandatory md:overflow-visible md:grid md:grid-cols-4">
+          {/* Experience items */}
+          <div className="space-y-12">
             {experiences.map((exp, index) => (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, y: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`relative flex-shrink-0 w-72 md:w-auto snap-center ${
-                  index % 2 === 0 ? 'md:self-start md:pb-20' : 'md:self-end md:pt-20'
+                className={`relative flex items-start gap-8 ${
+                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
-                {/* Connector dot */}
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-foreground border-4 border-background z-10"
-                  style={{ top: index % 2 === 0 ? 'auto' : '0', bottom: index % 2 === 0 ? '0' : 'auto' }}
-                />
+                {/* Timeline dot */}
+                <div className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-foreground border-4 border-background -translate-x-1/2 mt-6 z-10" />
 
-                {/* Vertical connector line */}
-                <div
-                  className={`hidden md:block absolute left-1/2 -translate-x-1/2 w-[2px] h-8 bg-border ${
-                    index % 2 === 0 ? 'bottom-4' : 'top-4'
-                  }`}
-                />
+                {/* Content card */}
+                <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="glass-panel rounded-2xl p-6 hover:shadow-lg transition-all duration-300"
+                  >
+                    {/* Duration badge */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-xs font-medium text-foreground mb-4">
+                      <Calendar className="w-3 h-3" />
+                      {exp.duration}
+                    </div>
 
-                {/* Card */}
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  className="glass-panel rounded-2xl p-6 hover:shadow-lg transition-all duration-300 h-full"
-                >
-                  {/* Icon */}
-                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-4">
-                    <Briefcase className="w-5 h-5 text-foreground" />
-                  </div>
+                    {/* Role & Company */}
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
+                        <Briefcase className="w-5 h-5 text-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground">
+                          {exp.role}
+                        </h3>
+                        <p className="text-sm font-medium text-muted-foreground">
+                          {exp.company}
+                        </p>
+                      </div>
+                    </div>
 
-                  {/* Role & Company */}
-                  <h3 className="text-lg font-semibold text-foreground mb-1">
-                    {exp.role}
-                  </h3>
-                  <p className="text-sm font-medium text-muted-foreground mb-3">
-                    {exp.company}
-                  </p>
+                    {/* Location */}
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                      <MapPin className="w-3.5 h-3.5" />
+                      <span>{exp.location}</span>
+                    </div>
 
-                  {/* Duration */}
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>{exp.duration}</span>
-                  </div>
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                      {exp.description}
+                    </p>
 
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {exp.description}
-                  </p>
-                </motion.div>
+                    {/* Skills */}
+                    <div className="flex flex-wrap gap-2">
+                      {exp.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="px-2 py-1 text-xs rounded-md bg-secondary/50 text-muted-foreground"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Empty space for alternating layout on desktop */}
+                <div className="hidden md:block md:w-[calc(50%-2rem)]" />
               </motion.div>
             ))}
           </div>
         </div>
-
-        {/* Mobile scroll hint */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-xs text-muted-foreground mt-4 md:hidden"
-        >
-          Swipe to explore →
-        </motion.p>
       </div>
     </section>
   );
