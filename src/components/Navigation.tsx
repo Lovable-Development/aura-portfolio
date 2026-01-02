@@ -12,9 +12,9 @@ import {
   X,
   Volume2,
   VolumeOff,
-  BriefcaseBusiness
+  BriefcaseBusiness,
 } from "lucide-react";
-import { useAudio } from "@/hooks/use-audio";
+import { useAudio } from "@/hooks/AudioContext";
 
 const navItems = [
   { id: "hero", icon: Home, label: "Home" },
@@ -49,35 +49,11 @@ const getDownloadLink = (driveLink: string) => {
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  // const [isPlaying, setIsPlaying] = useState(true);
-  // const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { playAudio, isPlaying } = useAudio();
+  const { playAudio, pauseAudio, isPlaying } = useAudio();
 
-  // useEffect(() => {
-  //   audioRef.current = new Audio("/audio/space_sound1.mp3");
-  //   audioRef.current.loop = true;
-  //   audioRef.current.volume = 0.4;
-
-  //   audioRef.current.play().catch(() => {
-  //     setIsPlaying(false);
-  //   });
-
-  //   return () => {
-  //     audioRef.current?.pause();
-  //   };
-  // }, []);
-
-  // const toggleSound = () => {
-  //   if (!audioRef.current) return;
-
-  //   if (isPlaying) {
-  //     audioRef.current.pause();
-  //   } else {
-  //     audioRef.current.play();
-  //   }
-
-  //   setIsPlaying(!isPlaying);
-  // };
+  const toggleSound = () => {
+    isPlaying ? pauseAudio() : playAudio();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,7 +134,7 @@ const Navigation = () => {
             {/* Sound Toggle Button */}
             <li>
               <button
-                onClick={playAudio}
+                onClick={toggleSound}
                 className="relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
               >
                 {isPlaying ? (

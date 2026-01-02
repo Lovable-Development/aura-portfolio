@@ -7,27 +7,30 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Navigation from "@/components/Navigation";
 import Preloader from "@/components/Preloader";
+import { AudioProvider } from "@/hooks/AudioContext";
 
 const Index = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <main className="min-h-screen bg-background">
-      {isLoading ? (
-        <Preloader onComplete={() => setIsLoading(false)} />
-      ) : (
-        <>
-          <Hero />
-          <GravitySkills />
-          <GitHubCompare />
-          <Experience />
-          <Projects onModalChange={setIsProjectModalOpen} />
-          <Contact />
-          {!isProjectModalOpen && <Navigation />}
-        </>
-      )}
-    </main>
+    <AudioProvider>
+      <main className="min-h-screen bg-background">
+        {isLoading ? (
+          <Preloader onComplete={() => setIsLoading(false)} />
+        ) : (
+          <>
+            <Hero />
+            <GravitySkills />
+            <GitHubCompare />
+            <Experience />
+            <Projects onModalChange={setIsProjectModalOpen} />
+            <Contact />
+            {!isProjectModalOpen && <Navigation />}
+          </>
+        )}
+      </main>
+    </AudioProvider>
   );
 };
 

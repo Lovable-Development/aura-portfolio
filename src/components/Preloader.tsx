@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { CSSProperties } from "react";
+import { useAudio } from "@/hooks/AudioContext";
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -24,6 +25,7 @@ const svgStyle: CSSProperties = {
 const Preloader = ({ onComplete }: PreloaderProps) => {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const { initAudio, playAudio } = useAudio();
 
   useEffect(() => {
     const duration = 2000;
@@ -35,10 +37,6 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
         const next = prev + increment;
         if (next >= 100) {
           clearInterval(timer);
-          setTimeout(() => {
-            setIsExiting(true);
-            setTimeout(onComplete, 600);
-          }, 300);
           return 100;
         }
         return next;
@@ -47,6 +45,13 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
 
     return () => clearInterval(timer);
   }, [onComplete]);
+
+  const handleEnter = () => {
+    initAudio(); // create audio
+    playAudio(); // ✅ allowed now (user gesture)
+    setIsExiting(true);
+    setTimeout(onComplete, 600);
+  };
 
   const codeSymbols = ["{", "}", "<", "/>", ";", "( )", "[ ]", "&&"];
 
@@ -142,18 +147,27 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             </motion.div>
 
             {/* Progress bar */}
-            <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: 200 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="relative h-[2px] bg-border overflow-hidden"
-            >
+            {progress >= 100 ? (
+              <button
+                onClick={handleEnter}
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift"
+              >
+                Enter
+              </button>
+            ) : (
               <motion.div
-                className="absolute inset-y-0 left-0 bg-foreground"
-                style={{ width: `${progress}%` }}
-                transition={{ ease: "linear" }}
-              />
-            </motion.div>
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 200 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="relative h-[2px] bg-border overflow-hidden"
+              >
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-foreground"
+                  style={{ width: `${progress}%` }}
+                  transition={{ ease: "linear" }}
+                />
+              </motion.div>
+            )}
 
             {/* Percentage */}
             <motion.span
