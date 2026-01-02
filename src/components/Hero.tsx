@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import Parallax from "./Parallax";
 import { useSound } from "@/hooks/use-sound";
+import {TypingAnimation} from "@/components/ui/typing-animation";
+import {BorderBeam} from "@/components/ui/border-beam";
+
 
 const floatingSymbols = [
   { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
@@ -49,21 +52,23 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
-        <motion.div
+        {/* <motion.div
           className="mt-3 flex items-center justify-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Parallax />
-        </motion.div>
+        </motion.div> */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6">
-            Software Developer
+           
+          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase ">
+            <TypingAnimation startOnView typeSpeed={60} words={["Software Developer", "Zoho Developer", "3D Animator"]} loop />
+            {/* Software Developer */}
           </p>
         </motion.div>
 
@@ -75,7 +80,7 @@ const Hero = () => {
         >
           Sachin Gupta
         </motion.h1> */}
-        <motion.div className="flex justify-center overflow-hidden">
+        {/* <motion.div className="flex justify-center overflow-hidden">
           {"Sachin Gupta".split("").map((letter, i) => (
             <motion.h1
               key={i}
@@ -91,7 +96,7 @@ const Hero = () => {
               {letter === " " ? "\u00A0" : letter}
             </motion.h1>
           ))}
-        </motion.div>
+        </motion.div> */}
 
         <motion.p
           className="mt-8 text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"
@@ -117,6 +122,7 @@ const Hero = () => {
           >
             View Work
           </a>
+          <BorderBeam duration={8} size={100} />
           <a
             href="#contact"
             className="px-8 py-3 border border-border rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"

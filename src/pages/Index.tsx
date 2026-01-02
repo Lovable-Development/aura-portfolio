@@ -8,6 +8,8 @@ import Contact from "@/components/Contact";
 import Navigation from "@/components/Navigation";
 import Preloader from "@/components/Preloader";
 import { AudioProvider } from "@/hooks/AudioContext";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
+
 
 const Index = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
@@ -15,6 +17,7 @@ const Index = () => {
 
   return (
     <AudioProvider>
+      <SmoothCursor />
       <main className="min-h-screen bg-background">
         {isLoading ? (
           <Preloader onComplete={() => setIsLoading(false)} />

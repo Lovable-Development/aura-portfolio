@@ -15,6 +15,8 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 import { useAudio } from "@/hooks/AudioContext";
+import { Dock,DockIcon } from "./ui/dock";
+
 
 const navItems = [
   { id: "hero", icon: Home, label: "Home" },
