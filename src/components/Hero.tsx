@@ -52,14 +52,14 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
-        {/* <motion.div
+        <motion.div
           className="mt-3 flex items-center justify-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Parallax />
-        </motion.div> */}
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,7 +80,7 @@ const Hero = () => {
         >
           Sachin Gupta
         </motion.h1> */}
-        {/* <motion.div className="flex justify-center overflow-hidden">
+        <motion.div className="flex justify-center overflow-hidden">
           {"Sachin Gupta".split("").map((letter, i) => (
             <motion.h1
               key={i}
@@ -96,7 +96,7 @@ const Hero = () => {
               {letter === " " ? "\u00A0" : letter}
             </motion.h1>
           ))}
-        </motion.div> */}
+        </motion.div>
 
         <motion.p
           className="mt-8 text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"
