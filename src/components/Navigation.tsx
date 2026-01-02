@@ -155,7 +155,7 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/20 backdrop-blur-sm overflow-hidden border-border/50 rounded-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/10 backdrop-blur-md"
             onClick={() => setIsResumeOpen(false)}
           >
             <motion.div
@@ -163,49 +163,51 @@ const Navigation = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full h-[90vh] max-w-2xl bg-background rounded-3xl shadow-modal overflow-hidden"
+              className="relative w-full max-w-3xl h-[85vh] bg-background rounded-2xl shadow-2xl overflow-hidden border border-border"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex flex-row justify-between items-center ">
-                <div className="flex justify-start items-center gap-2 ml-4 my-2">
-                  <FileText className="w-6 h-6" />
-                  <h1 className="text-xl md:text-xl font-medium text-black tracking-tight">
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-secondary/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-primary" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-foreground tracking-tight">
                     Resume
-                  </h1>
+                  </h2>
                 </div>
-                <div className="flex justify-end items-center gap-2 mr-4 my-2">
+                <div className="flex items-center gap-2">
                   <a
                     href={getDownloadLink(RESUME_DRIVE_LINK)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                    className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-secondary"
                   >
                     <Download className="w-4 h-4" />
-                    Download
+                    <span className="hidden sm:inline">Download</span>
                   </a>
                   <a
                     href={RESUME_DRIVE_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-full hover:bg-primary/10"
+                    className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-secondary"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    Drive
+                    <span className="hidden sm:inline">Open</span>
                   </a>
-                  {/* Close Button */}
                   <button
                     onClick={() => setIsResumeOpen(false)}
-                    className="flex items-center justify-center p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border hover:bg-secondary transition-colors"
+                    className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
               </div>
-              <hr className="border-2 mt-2 border-black w-full"></hr>
-              <div className="flex-1 h-full">
+              {/* Content */}
+              <div className="h-[calc(85vh-65px)]">
                 <iframe
                   src={getEmbedLink(RESUME_DRIVE_LINK)}
-                  className="w-full h-[calc(90vh-60px)]"
+                  className="w-full h-full"
                   allow="autoplay"
                   title="Resume Preview"
                 />
