@@ -3,19 +3,87 @@ import Matter from "matter-js";
 import { motion } from "framer-motion";
 
 const skills = [
-  { name: "React", icon: "⚛️", bg: "bg-sky-500/20 border-sky-400/40" },
-  { name: "TypeScript", icon: "📘", bg: "bg-blue-500/20 border-blue-400/40" },
-  { name: "Node.js", icon: "🟢", bg: "bg-green-500/20 border-green-400/40" },
-  { name: "Python", icon: "🐍", bg: "bg-yellow-500/20 border-yellow-400/40" },
-  { name: "GraphQL", icon: "◈", bg: "bg-pink-500/20 border-pink-400/40" },
-  { name: "PostgreSQL", icon: "🐘", bg: "bg-indigo-500/20 border-indigo-400/40" },
-  { name: "Docker", icon: "🐳", bg: "bg-cyan-500/20 border-cyan-400/40" },
-  { name: "AWS", icon: "☁️", bg: "bg-orange-500/20 border-orange-400/40" },
-  { name: "Git", icon: "📦", bg: "bg-red-500/20 border-red-400/40" },
-  { name: "Figma", icon: "🎨", bg: "bg-purple-500/20 border-purple-400/40" },
-  { name: "Next.js", icon: "▲", bg: "bg-neutral-900/80 border-neutral-700" },
-  { name: "Tailwind", icon: "💨", bg: "bg-teal-500/20 border-teal-400/40" },
+  {
+    name: "NextJS",
+    icon: "▲",
+    bg: "bg-neutral-900",
+    text: "text-white",
+  },
+
+  {
+    name: "React",
+    icon: "⚛️",
+    bg: "bg-cyan-100 border-cyan-300",
+    text: "text-black",
+  },
+  {
+    name: "TypeScript",
+    icon: "TS",
+    bg: "bg-blue-100 border-blue-300",
+    text: "text-neutral-900 text-shadow-lg",
+  },
+  {
+    name: "JavaScript",
+    icon: "JS",
+    bg: "bg-yellow-100 border-yellow-300",
+    text: "text-yellow-700",
+  },
+  {
+    name: "NodeJS",
+    icon: "⬢",
+    bg: "bg-green-100 border-green-300",
+    text: "text-green-700",
+  },
+  {
+    name: "Python",
+    icon: "🐍",
+    bg: "bg-blue-50 border-blue-300",
+    text: "text-blue-700",
+  },
+  {
+    name: "PostgreSQL",
+    icon: "🐘",
+    bg: "bg-indigo-100 border-indigo-300",
+    text: "text-indigo-700",
+  },
+  {
+    name: "SQL",
+    icon: "◈",
+    bg: "bg-pink-100 border-pink-300",
+    text: "text-pink-700",
+  },
+  {
+    name: "Git",
+    icon: "⎇",
+    bg: "bg-orange-100 border-orange-300",
+    text: "text-orange-700",
+  },
+  {
+    name: "Tailwind CSS",
+    icon: "💨",
+    bg: "bg-sky-100 border-sky-300",
+    text: "text-sky-700",
+  },
+  {
+    name: "AI",
+    icon: "🤖",
+    bg: "bg-purple-100 border-purple-300",
+    text: "text-purple-700",
+  },
+  {
+    name: "Automation",
+    icon: "⚙️",
+    bg: "bg-amber-100 border-amber-300",
+    text: "text-amber-700",
+  },
+  {
+    name: "Blender",
+    icon: "",
+    bg: "bg-[#e88114]",
+    text: "text-[#255686]",
+  },
 ];
+
 
 type SkillBodyMeta = {
   width: number;
@@ -109,14 +177,15 @@ const GravitySkills = () => {
       ), // ceiling
     ];
 
-    function measureSkill(icon: string, text: string, font = "16px Inter") {
+    function measureSkill(icon: string | React.ReactElement, text: string, font = "16px Inter") {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d")!;
 
       ctx.font = font;
 
       const textWidth = ctx.measureText(text).width;
-      const iconWidth = ctx.measureText(icon).width;
+      const iconStr = typeof icon === "string" ? icon : "📦";
+      const iconWidth = ctx.measureText(iconStr).width;
 
       const paddingX = 24;
       const paddingY = 20;
@@ -287,7 +356,7 @@ const GravitySkills = () => {
             return (
               <div
                 key={pos.id}
-                className={`absolute flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md shadow-sm pointer-events-none select-none ${skill.bg}`}
+                className={`absolute flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md shadow-sm pointer-events-none select-none ${skill.bg} ${skill.text}`}
                 style={{
                   width: pos.width,
                   height: pos.height,
@@ -296,8 +365,8 @@ const GravitySkills = () => {
                   transform: `rotate(${pos.angle}rad)`,
                 }}
               >
-                <span className="text-lg">{skill.icon}</span>
-                <span className="text-lg font-bold whitespace-nowrap">
+                <span className="text-sm">{skill.icon}</span>
+                <span className="text-lg font-bold whitespace-nowrap text-shadow-lg/30">
                   {skill.name}
                 </span>
               </div>

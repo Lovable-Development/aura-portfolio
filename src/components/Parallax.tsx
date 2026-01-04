@@ -11,16 +11,6 @@ interface DeviceOrientationEvent {
   gamma: number;
   requestPermission?: () => Promise<"granted" | "denied">;
 }
-
-// Styles
-const containerStyle: CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
-  background: "#f0f0f0",
-};
 const wrapperStyle: CSSProperties = {
   position: "relative",
   width: "300px",
@@ -34,26 +24,16 @@ const svgStyle: CSSProperties = {
   height: "100%",
   transition: "transform 0.1s ease-out",
 };
-const btnStyle: CSSProperties = {
-  marginTop: "20px",
-  padding: "10px 20px",
-  borderRadius: "20px",
-  border: "none",
-  background: "#000",
-  color: "#fff",
-  cursor: "pointer",
-};
 
 const Parallax: React.FC = () => {
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [hasPermission, setHasPermission] = useState<boolean>(false);
+  // const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
     const handleClick = () => {
-      console.log("clicked");
       setBlink(true);
       setTimeout(() => setBlink(false), 100);
     };
@@ -75,15 +55,25 @@ const Parallax: React.FC = () => {
       const gamma = e.gamma ?? 0;
       const beta = e.beta ?? 0;
 
-      const x = Math.min(Math.max(gamma / 45, -1), 1);
-      const y = Math.min(Math.max((beta - 45) / 45, -1), 1);
+      const SENSITIVITY = 1.4; // ← magic number
+      const RANGE = 60; // wider than 45
+
+      let x = (gamma / RANGE) * SENSITIVITY;
+      let y = ((beta - 45) / RANGE) * SENSITIVITY;
+
+      // soft clamp (feels way better)
+      x = Math.max(-1.2, Math.min(1.2, x));
+      y = Math.max(-1.2, Math.min(1.2, y));
+
+      // const x = Math.min(Math.max(gamma / 45, -1), 1);
+      // const y = Math.min(Math.max((beta - 45) / 45, -1), 1);
 
       setOffset({ x, y });
     };
 
     if (!isMobile) {
       window.addEventListener("mousemove", handleMouseMove);
-    } else if (hasPermission) {
+    } else {
       window.addEventListener("deviceorientation", handleOrientation);
     }
 
@@ -91,21 +81,21 @@ const Parallax: React.FC = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("deviceorientation", handleOrientation);
     };
-  }, [isMobile, hasPermission]);
+  }, [isMobile]);
 
-  const requestPermission = async () => {
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof (DeviceOrientationEvent as any).requestPermission === "function"
-    ) {
-      const permission = await (
-        DeviceOrientationEvent as any
-      ).requestPermission();
-      if (permission === "granted") setHasPermission(true);
-    } else {
-      setHasPermission(true); // Non-iOS devices
-    }
-  };
+  // const requestPermission = async () => {
+  //   if (
+  //     typeof DeviceOrientationEvent !== "undefined" &&
+  //     typeof (DeviceOrientationEvent as any).requestPermission === "function"
+  //   ) {
+  //     const permission = await (
+  //       DeviceOrientationEvent as any
+  //     ).requestPermission();
+  //     if (permission === "granted") setHasPermission(true);
+  //   } else {
+  //     setHasPermission(true); // Non-iOS devices
+  //   }
+  // };
 
   return (
     <div>
@@ -176,12 +166,6 @@ const Parallax: React.FC = () => {
           </g>
         </svg>
       </div>
-
-      {isMobile && !hasPermission && (
-        <button onClick={requestPermission} style={btnStyle}>
-          Enable Gyro Look
-        </button>
-      )}
     </div>
   );
 };

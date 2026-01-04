@@ -26,6 +26,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const { initAudio, playAudio } = useAudio();
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     const duration = 2000;
@@ -37,6 +38,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
         const next = prev + increment;
         if (next >= 100) {
           clearInterval(timer);
+          setTimeout(() => setShowButton(true), 500); // ADD THIS LINE
           return 100;
         }
         return next;
@@ -46,14 +48,26 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
     return () => clearInterval(timer);
   }, [onComplete]);
 
-  const handleEnter = () => {
+  const handleEnter = async () => {
     initAudio(); // create audio
     playAudio(); // ✅ allowed now (user gesture)
+    await requestGyroPermission();
     setIsExiting(true);
     setTimeout(onComplete, 600);
   };
 
-  const codeSymbols = ["{", "}", "<", "/>", ";", "( )", "[ ]", "&&"];
+  const requestGyroPermission = async () => {
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof (DeviceOrientationEvent as any).requestPermission === "function"
+    ) {
+      const permission = await (
+        DeviceOrientationEvent as any
+      ).requestPermission();
+      return permission === "granted";
+    }
+    return true; // Android / non-iOS
+  };
 
   return (
     <AnimatePresence>
@@ -147,27 +161,40 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             </motion.div>
 
             {/* Progress bar */}
-            {progress >= 100 ? (
-              <button
-                onClick={handleEnter}
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift"
-              >
-                Enter
-              </button>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: 200 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="relative h-[2px] bg-border overflow-hidden"
-              >
+            {/* Progress bar */}
+            <AnimatePresence mode="wait">
+              {!showButton ? (
                 <motion.div
-                  className="absolute inset-y-0 left-0 bg-foreground"
-                  style={{ width: `${progress}%` }}
-                  transition={{ ease: "linear" }}
-                />
-              </motion.div>
-            )}
+                  key="progress"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 200 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  className="relative h-[2px] bg-border overflow-hidden"
+                >
+                  <motion.div
+                    className="absolute inset-y-0 left-0 bg-foreground"
+                    style={{ width: `${progress}%` }}
+                    transition={{ ease: "linear" }}
+                  />
+                </motion.div>
+              ) : (
+                <motion.button
+                  onClick={handleEnter}
+                  initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  whileHover={{ y: -4 ,scale: 1.05}}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:shadow-lg"
+                >
+                  Enter
+                </motion.button>
+              )}
+            </AnimatePresence>
 
             {/* Percentage */}
             <motion.span

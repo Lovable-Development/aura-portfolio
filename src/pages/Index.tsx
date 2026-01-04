@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Hero from "@/components/Hero";
 import GravitySkills from "@/components/GravitySkills";
 import Experience from "@/components/Experience";
@@ -10,14 +10,26 @@ import Preloader from "@/components/Preloader";
 import { AudioProvider } from "@/hooks/AudioContext";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 
-
 const Index = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showCursor, setShowCursor] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    setShowCursor(mq.matches);
+
+    const handleChange = (e: MediaQueryListEvent) =>
+      setShowCursor(e.matches);
+
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, []);
 
   return (
     <AudioProvider>
-      <SmoothCursor />
+      {showCursor && <SmoothCursor />}
+
       <main className="min-h-screen bg-background">
         {isLoading ? (
           <Preloader onComplete={() => setIsLoading(false)} />
