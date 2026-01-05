@@ -7,88 +7,90 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { ProjectsData } from "@/data/data";
+import { Project } from "../types/types";
 
-interface Project {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  fullDescription: string;
-  technologies: string[];
-  images: string[]; // Changed to array
-  liveUrl?: string;
-  githubUrl?: string;
-}
+// interface Project {
+//   id: number;
+//   title: string;
+//   category: string;
+//   description: string;
+//   fullDescription: string;
+//   technologies: string[];
+//   images: string[]; // Changed to array
+//   liveUrl?: string;
+//   githubUrl?: string;
+// }
 
 interface ProjectsProps {
   onModalChange?: (isOpen: boolean) => void;
 }
 
-const projects: Project[] = [
-  {
-    id: 1,
-    title: "Fintech Dashboard",
-    category: "Web Application",
-    description:
-      "Real-time analytics platform for financial data visualization",
-    fullDescription:
-      "A comprehensive financial analytics dashboard built for enterprise clients. Features real-time data streaming, interactive charts, and AI-powered insights for market analysis. The platform handles millions of data points daily with sub-second latency.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    technologies: ["React", "TypeScript", "D3.js", "WebSocket", "PostgreSQL"],
-    images: [
-      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      "linear-gradient(135deg, #764ba2 0%, #f093fb 100%)",
-      "linear-gradient(135deg, #f093fb 0%, #667eea 100%)",
-    ],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 2,
-    title: "E-Commerce Platform",
-    category: "Full Stack",
-    description: "Modern shopping experience with headless CMS integration",
-    fullDescription:
-      "A high-performance e-commerce solution featuring server-side rendering, optimistic UI updates, and a headless CMS for content management. Includes advanced features like AI-powered product recommendations and dynamic pricing.",
-    technologies: ["Next.js", "Stripe", "Sanity", "Tailwind CSS"],
-    images: [
-      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-      "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
-      "linear-gradient(135deg, #ff9a9e 0%, #f093fb 100%)",
-    ],
-    liveUrl: "#",
-  },
-  {
-    id: 3,
-    title: "Health Tracking App",
-    category: "Mobile & Web",
-    description: "Cross-platform health and wellness tracking solution",
-    fullDescription:
-      "A wellness companion app that syncs across devices, tracking fitness metrics, nutrition, and mental health. Features include wearable device integration, personalized insights, and gamification elements to encourage healthy habits.",
-    technologies: ["React Native", "Node.js", "MongoDB", "HealthKit"],
-    images: [
-      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-      "linear-gradient(135deg, #00f2fe 0%, #43e97b 100%)",
-      "linear-gradient(135deg, #43e97b 0%, #4facfe 100%)",
-    ],
-    githubUrl: "#",
-  },
-  {
-    id: 4,
-    title: "AI Content Studio",
-    category: "AI/ML",
-    description: "Generative AI tools for creative professionals",
-    fullDescription:
-      "An AI-powered creative suite that helps content creators generate, edit, and optimize their work. Includes text generation, image editing, and automated content optimization using cutting-edge machine learning models.",
-    technologies: ["Python", "TensorFlow", "FastAPI", "React"],
-    images: [
-      "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-      "linear-gradient(135deg, #38f9d7 0%, #667eea 100%)",
-      "linear-gradient(135deg, #667eea 0%, #43e97b 100%)",
-    ],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-];
+// const projects: Project[] = [
+//   {
+//     id: 1,
+//     title: "Fintech Dashboard",
+//     category: "Web Application",
+//     description:
+//       "Real-time analytics platform for financial data visualization",
+//     fullDescription:
+//       "A comprehensive financial analytics dashboard built for enterprise clients. Features real-time data streaming, interactive charts, and AI-powered insights for market analysis. The platform handles millions of data points daily with sub-second latency.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//     technologies: ["React", "TypeScript", "D3.js", "WebSocket", "PostgreSQL"],
+//     images: [
+//       "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+//       "linear-gradient(135deg, #764ba2 0%, #f093fb 100%)",
+//       "linear-gradient(135deg, #f093fb 0%, #667eea 100%)",
+//     ],
+//     liveUrl: "#",
+//     githubUrl: "#",
+//   },
+//   {
+//     id: 2,
+//     title: "E-Commerce Platform",
+//     category: "Full Stack",
+//     description: "Modern shopping experience with headless CMS integration",
+//     fullDescription:
+//       "A high-performance e-commerce solution featuring server-side rendering, optimistic UI updates, and a headless CMS for content management. Includes advanced features like AI-powered product recommendations and dynamic pricing.",
+//     technologies: ["Next.js", "Stripe", "Sanity", "Tailwind CSS"],
+//     images: [
+//       "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+//       "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
+//       "linear-gradient(135deg, #ff9a9e 0%, #f093fb 100%)",
+//     ],
+//     liveUrl: "#",
+//   },
+//   {
+//     id: 3,
+//     title: "Health Tracking App",
+//     category: "Mobile & Web",
+//     description: "Cross-platform health and wellness tracking solution",
+//     fullDescription:
+//       "A wellness companion app that syncs across devices, tracking fitness metrics, nutrition, and mental health. Features include wearable device integration, personalized insights, and gamification elements to encourage healthy habits.",
+//     technologies: ["React Native", "Node.js", "MongoDB", "HealthKit"],
+//     images: [
+//       "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+//       "linear-gradient(135deg, #00f2fe 0%, #43e97b 100%)",
+//       "linear-gradient(135deg, #43e97b 0%, #4facfe 100%)",
+//     ],
+//     githubUrl: "#",
+//   },
+//   {
+//     id: 4,
+//     title: "AI Content Studio",
+//     category: "AI/ML",
+//     description: "Generative AI tools for creative professionals",
+//     fullDescription:
+//       "An AI-powered creative suite that helps content creators generate, edit, and optimize their work. Includes text generation, image editing, and automated content optimization using cutting-edge machine learning models.",
+//     technologies: ["Python", "TensorFlow", "FastAPI", "React"],
+//     images: [
+//       "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+//       "linear-gradient(135deg, #38f9d7 0%, #667eea 100%)",
+//       "linear-gradient(135deg, #667eea 0%, #43e97b 100%)",
+//     ],
+//     liveUrl: "#",
+//     githubUrl: "#",
+//   },
+// ];
 
 const Projects = ({ onModalChange }: ProjectsProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -132,7 +134,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
   };
 
   useEffect(() => {
-    const timers = projects.map((project, projectIdx) => {
+    const timers = ProjectsData.map((project, projectIdx) => {
       if (project.images.length <= 1) return null;
 
       return setInterval(() => {
@@ -150,7 +152,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
     return () => {
       timers.forEach((t) => t && clearInterval(t));
     };
-  }, [projects]);
+  }, [ProjectsData]);
 
   return (
     <section id="projects" className="py-24 px-4">
@@ -171,7 +173,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
+          {ProjectsData.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
@@ -183,11 +185,6 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
             >
               <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border  hover-lift">
                 {/* Project Image */}
-                {/* <div
-                  className="h-48 w-full"
-                  style={{ background: project.images[0] }}
-                /> */}
-                {/* Carousel */}
                 <div className="relative h-[19rem] w-full overflow-hidden">
                     <AnimatePresence mode="wait">
                       <motion.div
@@ -232,7 +229,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
                   <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-muted-foreground transition-colors">
                     {project.title}
                   </h3>
-                  <p className="mt-2 text-muted-foreground text-sm">
+                  <p className="mt-2 text-muted-foreground text-sm ">
                     {project.description}
                   </p>
 
@@ -346,7 +343,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
                 <h3 className="mt-2 text-3xl font-semibold tracking-tight">
                   {selectedProject.title}
                 </h3>
-                <p className="mt-4 text-muted-foreground leading-relaxed">
+                <p className="mt-4 text-muted-foreground leading-relaxed whitespace-pre-wrap">
                   {selectedProject.fullDescription}
                 </p>
 

@@ -26,7 +26,7 @@ const DefaultCursorSVG: FC = () => {
       fill="none"
       style={{
         scale: 0.5,
-        transform: "rotate(-45deg)", // 👈 static rotation
+        transform: "rotate(-25deg)", // 👈 static rotation
         transformOrigin: "50% 0%", // rotate from tip
       }}
     >

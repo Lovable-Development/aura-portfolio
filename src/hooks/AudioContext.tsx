@@ -8,9 +8,9 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
 
   const initAudio = () => {
     if (!audioRef.current) {
-      audioRef.current = new Audio("/audio/space_sound1.mp3");
+      audioRef.current = new Audio("/audio/space.mp3");
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.4;
+      audioRef.current.volume = 0.15;
     }
   };
 

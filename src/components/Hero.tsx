@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import Parallax from "./Parallax";
 import { useSound } from "@/hooks/use-sound";
-import {TypingAnimation} from "@/components/ui/typing-animation";
-import {BorderBeam} from "@/components/ui/border-beam";
-
+import { TypingAnimation } from "@/components/ui/typing-animation";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const floatingSymbols = [
   { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
@@ -65,9 +64,13 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
         >
-           
           <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase ">
-            <TypingAnimation startOnView typeSpeed={60} words={["Software Developer", "Zoho Developer", "3D Animator"]} loop />
+            <TypingAnimation
+              startOnView
+              typeSpeed={60}
+              words={["Software Developer", "Zoho Developer", "3D Animator"]}
+              loop
+            />
             {/* Software Developer */}
           </p>
         </motion.div>
@@ -126,6 +129,8 @@ const Hero = () => {
           <a
             href="#contact"
             className="px-8 py-3 border border-border rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"
+            onMouseEnter={playHover}
+            onClick={playClick}
           >
             Get in Touch
           </a>
