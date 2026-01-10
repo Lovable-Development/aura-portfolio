@@ -10,7 +10,7 @@ const floatingSymbols = [
   { symbol: ";", x: "25%", y: "82%", delay: 2.5, size: "text-6xl" },
   { symbol: "</>", x: "20%", y: "25%", delay: 3, size: "text-3xl" },
   { symbol: "{ }", x: "5%", y: "40%", delay: 4, size: "text-3xl" },
-  { symbol: ":)", x: "75%", y: "75%", delay: 5.5, size: "text-8xl" },
+  { symbol: "!", x: "75%", y: "75%", delay: 5.5, size: "text-6xl" },
 ];
 
 const Hero = () => {
@@ -22,7 +22,7 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Grid Background */}
-      <div className="absolute inset-0 grid-background opacity-80" />
+      {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
 
       {/* Floating Code Symbols */}
       {floatingSymbols.map((item, index) => (
@@ -119,7 +119,7 @@ const Hero = () => {
         >
           <a
             href="#projects"
-            className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift "
+            className="ml-3 px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift "
             onMouseEnter={playHover}
             onClick={playClick}
           >
@@ -128,7 +128,7 @@ const Hero = () => {
           <BorderBeam duration={8} size={100} />
           <a
             href="#contact"
-            className="px-8 py-3 border border-border rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"
+            className="ml-6 px-8 py-3 border border-border rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"
             onMouseEnter={playHover}
             onClick={playClick}
           >

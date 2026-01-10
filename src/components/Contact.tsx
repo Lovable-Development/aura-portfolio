@@ -83,7 +83,8 @@ const Contact = () => {
   return (
     <section id="contact" className="relative py-24 px-4 pb-40">
       {/* Grid Background like Hero */}
-      <div className="absolute inset-0 grid-background opacity-40 z-0" />
+      {/* <div className="absolute inset-0 grid-background opacity-80 z-0" /> */}
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

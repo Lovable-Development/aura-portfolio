@@ -19,8 +19,7 @@ const Index = () => {
     const mq = window.matchMedia("(pointer: fine)");
     setShowCursor(mq.matches);
 
-    const handleChange = (e: MediaQueryListEvent) =>
-      setShowCursor(e.matches);
+    const handleChange = (e: MediaQueryListEvent) => setShowCursor(e.matches);
 
     mq.addEventListener("change", handleChange);
     return () => mq.removeEventListener("change", handleChange);
@@ -30,7 +29,9 @@ const Index = () => {
     <AudioProvider>
       {showCursor && <SmoothCursor />}
 
-      <main className="min-h-screen bg-background">
+      <main className="relative min-h-screen bg-background">
+        {/* Grid Background */}
+        <div className="absolute inset-0 grid-background opacity-80" />
         {isLoading ? (
           <Preloader onComplete={() => setIsLoading(false)} />
         ) : (

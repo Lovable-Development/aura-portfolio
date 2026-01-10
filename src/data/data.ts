@@ -1,4 +1,5 @@
 import { Project } from "../types/types";
+import { ExperienceItem } from "../types/types";
 
 export const ProjectsData: Project[] = [
   {
@@ -75,5 +76,53 @@ export const ProjectsData: Project[] = [
     ],
     liveUrl: "#",
     githubUrl: "#",
+  },
+];
+
+export const ExperiencesData: ExperienceItem[] = [
+    {
+    id: 1,
+    role: "Software Engineer",
+    company: "FusionHawk",
+    location: "New Delhi, India",
+    duration: "Jan 2026 - Present",
+    description: "Leading Automation, Ai integration, Solution Building, Development.",
+    skills: ["Zoho", "Automations", "Node.js"],
+  },
+  {
+    id: 2,
+    role: "Zoho Developer",
+    company: "Tempsens",
+    location: "Udaipur, India ",
+    duration: "Oct 2025 - Jan 2026",
+    description: "Leading frontend architecture and mentoring junior developers.",
+    skills: ["Zoho", "Automations", "Node.js"],
+  },
+  {
+    id: 3,
+    role: "Software Developer Intern",
+    company: "Nessco India",
+    location: "Jaipur, India",
+    duration: "May 2025 - Jul 2025",
+    description: "Built scalable web applications using React and Node.js.",
+    skills: ["React", "MongoDB", "AWS"],
+  },
+  {
+    id: 4,
+    role: "Backend Developer",
+    company: "CodeUp",
+    location: "Jaipur, India",
+    duration: "Oct 2024 - Apr 2025",
+    description: "Crafted responsive interfaces and improved UX performance.",
+    skills: ["Node.js", "SQL", "Database Design", "REST APIs"],
+  },
+  {
+    id: 5,
+    role: "Software Developer Intern",
+    company: "Nessco India",
+    location: "Jaipur, India",
+    duration: "Jul 2024 - Sep 2024",
+    description: "Developed landing pages and maintained client websites.",
+    skills: ["HTML", "CSS", "JavaScript"],
   },
 ];

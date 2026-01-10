@@ -84,7 +84,6 @@ const skills = [
   },
 ];
 
-
 type SkillBodyMeta = {
   width: number;
   height: number;
@@ -177,7 +176,11 @@ const GravitySkills = () => {
       ), // ceiling
     ];
 
-    function measureSkill(icon: string | React.ReactElement, text: string, font = "16px Inter") {
+    function measureSkill(
+      icon: string | React.ReactElement,
+      text: string,
+      font = "16px Inter"
+    ) {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d")!;
 
@@ -324,7 +327,9 @@ const GravitySkills = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-24 px-4">
+    <section id="skills" className="relative py-24 px-4">
+      {/* Grid Background */}
+      <div className="absolute inset-0 grid-background opacity-80" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -332,7 +337,7 @@ const GravitySkills = () => {
         transition={{ duration: 0.6 }}
         className="max-w-5xl mx-auto"
       >
-        <div className="text-center mb-12">
+        <div className="relative text-center mb-12">
           <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4">
             Technologies
           </p>
@@ -346,7 +351,7 @@ const GravitySkills = () => {
 
         <div
           ref={containerRef}
-          className="relative w-full h-[500px] rounded-3xl bg-secondary/30 border border-border overflow-hidden"
+          className="relative w-full h-[500px] rounded-3xl bg-gray-200/30 border border-border overflow-hidden"
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
 
@@ -372,18 +377,18 @@ const GravitySkills = () => {
               </div>
             );
           })}
+        </div>
 
-          {/* Skill Labels */}
-          {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4">
-            {skills.map((skill, index) => (
-              <span
-                key={index}
-                className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded-full backdrop-blur-sm"
-              >
-                {skill.name}
-              </span>
-            ))}
-          </div> */}
+        {/* Skill Labels */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4">
+          {skills.map((skill, index) => (
+            <span
+              key={index}
+              className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded-full backdrop-blur-sm border border-muted-foreground"
+            >
+              {skill.name}
+            </span>
+          ))}
         </div>
       </motion.div>
     </section>

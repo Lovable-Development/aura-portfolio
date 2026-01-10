@@ -155,13 +155,17 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
   }, [ProjectsData]);
 
   return (
-    <section id="projects" className="py-24 px-4">
+    <section id="projects" className="relative py-24 px-4">
+
+      {/* Grid Background */}
+      {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto"
+        className="relative max-w-6xl mx-auto"
       >
         <div className="text-center mb-16">
           <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-4">

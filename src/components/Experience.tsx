@@ -1,59 +1,17 @@
 import { motion } from 'framer-motion';
 import { BriefcaseBusiness, Calendar, MapPin } from 'lucide-react';
+import { ExperiencesData } from '../data/data';
 
-interface ExperienceItem {
-  id: number;
-  role: string;
-  company: string;
-  location: string;
-  duration: string;
-  description: string;
-  skills: string[];
-}
 
-const experiences: ExperienceItem[] = [
-  {
-    id: 1,
-    role: "Zoho Developer",
-    company: "Tempsens",
-    location: "Udaipur, India ",
-    duration: "Oct 2025 - Present",
-    description: "Leading frontend architecture and mentoring junior developers.",
-    skills: ["Zoho", "Automations", "Node.js"],
-  },
-  {
-    id: 2,
-    role: "Software Developer Intern",
-    company: "Nessco India",
-    location: "Jaipur, India",
-    duration: "2021 - 2023",
-    description: "Built scalable web applications using React and Node.js.",
-    skills: ["React", "MongoDB", "AWS"],
-  },
-  {
-    id: 3,
-    role: "Backend Developer",
-    company: "CodeUp",
-    location: "Jaipur, India",
-    duration: "2019 - 2021",
-    description: "Crafted responsive interfaces and improved UX performance.",
-    skills: ["Node.js", "SQL", "Database Design", "REST APIs"],
-  },
-  {
-    id: 4,
-    role: "Software Developer Intern",
-    company: "Nessco India",
-    location: "Jaipur, India",
-    duration: "2018 - 2019",
-    description: "Developed landing pages and maintained client websites.",
-    skills: ["HTML", "CSS", "JavaScript"],
-  },
-];
+
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-24 md:py-32 px-6 bg-background overflow-hidden">
-      <div className="max-w-4xl mx-auto">
+    <section id="experience" className=" py-24 md:py-32 px-6 bg-background overflow-hidden">
+      {/* Grid Background */}
+      {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
+
+      <div className="relative max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -77,7 +35,7 @@ const Experience = () => {
 
           {/* Experience items */}
           <div className="space-y-12">
-            {experiences.map((exp, index) => (
+            {ExperiencesData.map((exp, index) => (
               <motion.div
                 key={exp.id}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}

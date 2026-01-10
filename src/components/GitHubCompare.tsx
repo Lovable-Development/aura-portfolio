@@ -223,7 +223,7 @@ const GitHubCompare = () => {
       className="relative py-24 px-4 overflow-hidden"
     >
       {/* Grid Background like Hero */}
-      <div className="absolute inset-0 grid-background opacity-80" />
+      {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
 
       {/* Floating Symbols */}
       {floatingSymbols.map((item, index) => (

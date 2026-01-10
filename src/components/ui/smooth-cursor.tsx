@@ -20,12 +20,12 @@ const DefaultCursorSVG: FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={50}
-      height={54}
+      width={44}
+      height={48}
       viewBox="0 0 50 54"
       fill="none"
       style={{
-        scale: 0.5,
+        scale: 0.2,
         transform: "rotate(-25deg)", // 👈 static rotation
         transformOrigin: "50% 0%", // rotate from tip
       }}
@@ -88,7 +88,7 @@ export function SmoothCursor({
     damping: 45,
     stiffness: 400,
     mass: 1,
-    restDelta: 0.001,
+    restDelta: 0.01,
   },
 }: SmoothCursorProps) {
   const [isMoving, setIsMoving] = useState(false);

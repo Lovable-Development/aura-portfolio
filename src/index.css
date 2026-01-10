@@ -81,7 +81,7 @@
 @layer base {
   * {
     @apply border-border;
-  cursor: none !important;
+  /* cursor: none !important; */
   }
 
   html {
@@ -215,4 +215,13 @@
     opacity: 0;
     }
   }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
 }
