@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { CSSProperties } from "react";
 import { useAudio } from "@/hooks/AudioContext";
 import { useSound } from "@/hooks/use-sound";
+import { useRef } from "react";
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -29,6 +30,16 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const { initAudio, playAudio } = useAudio();
   const [showButton, setShowButton] = useState(false);
   const { playHover, playClick } = useSound();
+  const hasStartedSound = useRef(false);
+
+  const progressSound = new Audio("/sound/progress.mp3");
+  progressSound.loop = true;
+
+  const playProgress = () => progressSound.play();
+  const stopProgress = () => {
+    progressSound.pause();
+    progressSound.currentTime = 0;
+  };
 
   useEffect(() => {
     const duration = 2000;
@@ -38,8 +49,18 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
     const timer = setInterval(() => {
       setProgress((prev) => {
         const next = prev + increment;
+
+        // 🔊 start sound once
+        if (!hasStartedSound.current && next > 0) {
+          playProgress();
+          progressSound.volume = 0.3;
+          hasStartedSound.current = true;
+        }
+
         if (next >= 100) {
           clearInterval(timer);
+          // 🔇 stop sound at 100
+          stopProgress();
           setTimeout(() => setShowButton(true), 500); // ADD THIS LINE
           return 100;
         }
@@ -163,7 +184,6 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
             </motion.div>
 
             {/* Progress bar */}
-            {/* Progress bar */}
             <AnimatePresence mode="wait">
               {!showButton ? (
                 <motion.div
@@ -183,7 +203,9 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
               ) : (
                 <motion.button
                   onMouseEnter={playHover}
-                  onClick={() => { handleEnter(), playClick(); }}
+                  onClick={() => {
+                    handleEnter(), playClick();
+                  }}
                   initial={{ opacity: 0, scale: 0.8, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   whileHover={{ y: -4, scale: 1.05 }}

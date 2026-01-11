@@ -31,7 +31,7 @@ const Experience = () => {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-primary md:-translate-x-px" />
 
           {/* Experience items */}
           <div className="space-y-12">

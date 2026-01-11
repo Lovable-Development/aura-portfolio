@@ -1,5 +1,14 @@
 import { Project } from "../types/types";
 import { ExperienceItem } from "../types/types";
+import gwennie1 from "../../public/gif/gwennie1.gif"
+import gwennie2 from "../../public/gif/gwennie2.gif"
+import gwennie3 from "../../public/gif/gwennie3.gif"
+import portfolio1 from "../../public/gif/portfolio1.gif"
+import portfolio2 from "../../public/gif/portfolio2.gif"
+// import portfolio3 from "../../public/gif/portfolio3.gif"
+import hmi1 from "../../public/gif/hmi1.gif"
+import hmi2 from "../../public/gif/hmi2.gif"
+// import hmi3 from "../../public/gif/hmi3.gif"
 
 export const ProjectsData: Project[] = [
   {
@@ -14,9 +23,9 @@ export const ProjectsData: Project[] = [
       "The experience prioritizes clean typography, balanced layouts, and subtle interactions to communicate trust and sophistication without visual noise.",
     technologies: ["React", "TypeScript", "Tailwind CSS"],
     images: [
-      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      "linear-gradient(135deg, #764ba2 0%, #f093fb 100%)",
-      "linear-gradient(135deg, #f093fb 0%, #667eea 100%)",
+      gwennie1,
+      gwennie2,
+      gwennie3,
     ],
     liveUrl: "#",
     githubUrl: "#",
@@ -47,9 +56,9 @@ export const ProjectsData: Project[] = [
       "I worked on the real-time communication layer and backend, implementing a scalable Node.js-based system to handle live machine states, controls, and status updates reliably.",
     technologies: ["Node.js", "InoTouchPad", "MQTT", "Express", "REST APIs", "publish–subscribe architecture"],
     images: [
-      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-      "linear-gradient(135deg, #00f2fe 0%, #43e97b 100%)",
-      "linear-gradient(135deg, #43e97b 0%, #4facfe 100%)",
+      hmi1,
+      hmi2,
+      // hmi3,
     ],
     githubUrl: "#",
   },
@@ -70,9 +79,9 @@ export const ProjectsData: Project[] = [
       "-Ambient sound for immersive atmosphere",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Matter.js", "Framer Motion"],
     images: [
-      "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-      "linear-gradient(135deg, #38f9d7 0%, #667eea 100%)",
-      "linear-gradient(135deg, #667eea 0%, #43e97b 100%)",
+      portfolio1,
+      portfolio2,
+      // portfolio3,
     ],
     liveUrl: "#",
     githubUrl: "#",

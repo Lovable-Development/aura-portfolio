@@ -329,7 +329,7 @@ const GravitySkills = () => {
   return (
     <section id="skills" className="relative py-24 px-4">
       {/* Grid Background */}
-      <div className="absolute inset-0 grid-background opacity-80" />
+      {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

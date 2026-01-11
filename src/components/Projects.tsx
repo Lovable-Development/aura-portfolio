@@ -109,7 +109,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
     if (!selectedProject || selectedProject.images.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => 
+      setCurrentImageIndex((prev) =>
         prev === selectedProject.images.length - 1 ? 0 : prev + 1
       );
     }, 3000);
@@ -156,7 +156,6 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
 
   return (
     <section id="projects" className="relative py-24 px-4">
-
       {/* Grid Background */}
       {/* <div className="absolute inset-0 grid-background opacity-80" /> */}
 
@@ -187,43 +186,66 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               onClick={() => setSelectedProject(project)}
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border  hover-lift">
+              <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border hover-lift">
                 {/* Project Image */}
                 <div className="relative h-[19rem] w-full overflow-hidden">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={imageIndices[project.id] ?? 0}
-                        initial={{ opacity: 0, x: 100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -100 }}
-                        transition={{ duration: 0.3 }}
-                        className="absolute inset-0"
-                        style={{
-                          background: project.images[imageIndices[project.id] ?? 0],
-                        }}
-                      />
-                    </AnimatePresence>
-  
-                    {/* Carousel Controls */}
-                    {project.images.length > 1 && (
-                      <>
-                        {/* Dots */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                          {project.images.map((_, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => setImageIndices({ ...imageIndices, [project.id]: idx })}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                idx === (imageIndices[project.id] ?? 0)
-                                  ? "bg-white w-6"
-                                  : "bg-white/50 hover:bg-white/75"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={imageIndices[project.id] ?? 0}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0"
+                    >
+                      {project.images[imageIndices[project.id] ?? 0].startsWith(
+                        "linear-gradient"
+                      ) ? (
+                        // 🎨 Gradient
+                        <div
+                          className="w-full h-full"
+                          style={{
+                            background:
+                              project.images[imageIndices[project.id] ?? 0],
+                          }}
+                        />
+                      ) : (
+                        // 🖼️ GIF / Image
+                        <img
+                          src={project.images[imageIndices[project.id] ?? 0]}
+                          alt={project.title}
+                          className="w-full h-full object-cover scale-[1.03]"
+                          draggable={false}
+                        />
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Carousel Controls */}
+                  {project.images.length > 1 && (
+                    <>
+                      {/* Dots */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                        {project.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() =>
+                              setImageIndices({
+                                ...imageIndices,
+                                [project.id]: idx,
+                              })
+                            }
+                            className={`w-2 h-2 rounded-full transition-all ${
+                              idx === (imageIndices[project.id] ?? 0)
+                                ? "bg-white w-6"
+                                : "bg-white/50 hover:bg-white/75"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
 
                 {/* Content */}
                 <div className="p-6">
@@ -338,56 +360,56 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
 
               {/* Content */}
               <div className="py-4 overflow-hidden">
+                <div className="p-8 overflow-y-auto h-full">
+                  <span className="text-xs text-muted-foreground tracking-wider uppercase">
+                    {selectedProject.category}
+                  </span>
+                  <h3 className="mt-2 text-3xl font-semibold tracking-tight">
+                    {selectedProject.title}
+                  </h3>
+                  <p className="mt-4 text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                    {selectedProject.fullDescription}
+                  </p>
 
-              
-              <div className="p-8 overflow-y-auto h-full">
-                <span className="text-xs text-muted-foreground tracking-wider uppercase">
-                  {selectedProject.category}
-                </span>
-                <h3 className="mt-2 text-3xl font-semibold tracking-tight">
-                  {selectedProject.title}
-                </h3>
-                <p className="mt-4 text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                  {selectedProject.fullDescription}
-                </p>
+                  {/* Technologies */}
+                  <div className="mt-6">
+                    <p className="text-sm font-medium mb-3">
+                      Technologies Used
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-sm px-3 py-1 bg-secondary rounded-full text-secondary-foreground"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
 
-                {/* Technologies */}
-                <div className="mt-6">
-                  <p className="text-sm font-medium mb-3">Technologies Used</p>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-sm px-3 py-1 bg-secondary rounded-full text-secondary-foreground"
+                  {/* Links */}
+                  <div className="mt-8 flex gap-4">
+                    {selectedProject.liveUrl && (
+                      <a
+                        href={selectedProject.liveUrl}
+                        className="flex items-center gap-2 px-4 md:px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift"
                       >
-                        {tech}
-                      </span>
-                    ))}
+                        <ExternalLink className="w-4 h-4" />
+                        View Live
+                      </a>
+                    )}
+                    {selectedProject.githubUrl && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        className="flex items-center gap-2 px-4 md:px-6 py-3 border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors"
+                      >
+                        <Github className="w-4 h-4" />
+                        Source Code
+                      </a>
+                    )}
                   </div>
                 </div>
-
-                {/* Links */}
-                <div className="mt-8 flex gap-4">
-                  {selectedProject.liveUrl && (
-                    <a
-                      href={selectedProject.liveUrl}
-                      className="flex items-center gap-2 px-4 md:px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover-lift"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      View Live
-                    </a>
-                  )}
-                  {selectedProject.githubUrl && (
-                    <a
-                      href={selectedProject.githubUrl}
-                      className="flex items-center gap-2 px-4 md:px-6 py-3 border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                      Source Code
-                    </a>
-                  )}
-                </div>
-              </div>
               </div>
             </motion.div>
           </motion.div>
