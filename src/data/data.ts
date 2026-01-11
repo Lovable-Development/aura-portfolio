@@ -9,6 +9,9 @@ import portfolio2 from "../../public/gif/portfolio2.gif"
 import hmi1 from "../../public/gif/hmi1.gif"
 import hmi2 from "../../public/gif/hmi2.gif"
 // import hmi3 from "../../public/gif/hmi3.gif"
+import mayoor1 from "../../public/gif/mayoor1.gif"
+import mayoor2 from "../../public/gif/mayoor2.gif"
+import mayoor3 from "../../public/gif/mayoor3.gif"
 
 export const ProjectsData: Project[] = [
   {
@@ -40,9 +43,9 @@ export const ProjectsData: Project[] = [
       "The platform manages the structured relationship between Assessment Criteria (AC), Learning Outcomes (LO), and Reported Outcomes (RO), ensuring accurate mapping, evaluation, and outcome tracking in an academic environment.",
     technologies: ["React", "Node.js", "Express", "MySQL", "REST APIs", "Database Design", "OAuth", "PWA"],
     images: [
-      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-      "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
-      "linear-gradient(135deg, #ff9a9e 0%, #f093fb 100%)",
+      mayoor1,
+      mayoor2,
+      mayoor3
     ],
     liveUrl: "#",
   },

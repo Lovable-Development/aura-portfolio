@@ -146,7 +146,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               current === project.images.length - 1 ? 0 : current + 1,
           };
         });
-      }, 3000);
+      }, 5000);
     });
 
     return () => {
@@ -188,62 +188,41 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
             >
               <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border hover-lift">
                 {/* Project Image */}
-                <div className="relative h-[19rem] w-full overflow-hidden">
+                <div className="relative w-full overflow-hidden">
                   <AnimatePresence mode="wait">
-                    <motion.div
+                    <motion.img
                       key={imageIndices[project.id] ?? 0}
-                      initial={{ opacity: 0, x: 100 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -100 }}
+                      src={project.images[imageIndices[project.id] ?? 0]}
+                      alt={project.title}
+                      initial={{ opacity: 0, y: 20 ,scale:1.03}}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.3 }}
-                      className="absolute inset-0"
-                    >
-                      {project.images[imageIndices[project.id] ?? 0].startsWith(
-                        "linear-gradient"
-                      ) ? (
-                        // 🎨 Gradient
-                        <div
-                          className="w-full h-full"
-                          style={{
-                            background:
-                              project.images[imageIndices[project.id] ?? 0],
-                          }}
-                        />
-                      ) : (
-                        // 🖼️ GIF / Image
-                        <img
-                          src={project.images[imageIndices[project.id] ?? 0]}
-                          alt={project.title}
-                          className="w-full h-full object-cover scale-[1.03]"
-                          draggable={false}
-                        />
-                      )}
-                    </motion.div>
+                      className="w-full h-auto object-contain scale-50"
+                      draggable={false}
+                    />
                   </AnimatePresence>
 
-                  {/* Carousel Controls */}
+                  {/* Dots */}
                   {project.images.length > 1 && (
-                    <>
-                      {/* Dots */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                        {project.images.map((_, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() =>
-                              setImageIndices({
-                                ...imageIndices,
-                                [project.id]: idx,
-                              })
-                            }
-                            className={`w-2 h-2 rounded-full transition-all ${
-                              idx === (imageIndices[project.id] ?? 0)
-                                ? "bg-white w-6"
-                                : "bg-white/50 hover:bg-white/75"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                      {project.images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() =>
+                            setImageIndices({
+                              ...imageIndices,
+                              [project.id]: idx,
+                            })
+                          }
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            idx === (imageIndices[project.id] ?? 0)
+                              ? "bg-white w-6"
+                              : "bg-white/50 hover:bg-white/75"
+                          }`}
+                        />
+                      ))}
+                    </div>
                   )}
                 </div>
 
@@ -311,16 +290,16 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               {/* Carousel */}
               <div className="relative h-[35vh] w-full overflow-hidden">
                 <AnimatePresence mode="wait">
-                  <motion.div
+                  <motion.img
                     key={currentImageIndex}
+                    src={selectedProject.images[currentImageIndex]}
+                    alt={selectedProject.title}
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0"
-                    style={{
-                      background: selectedProject.images[currentImageIndex],
-                    }}
+                    className="absolute w-full h-full object-cover "
+                    draggable={false}
                   />
                 </AnimatePresence>
 
