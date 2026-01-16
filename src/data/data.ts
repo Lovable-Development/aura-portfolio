@@ -45,7 +45,7 @@ export const ProjectsData: Project[] = [
     images: [
       mayoor1,
       mayoor2,
-      mayoor3
+      mayoor3,
     ],
     liveUrl: "#",
   },

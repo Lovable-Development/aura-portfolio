@@ -194,7 +194,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
                       key={imageIndices[project.id] ?? 0}
                       src={project.images[imageIndices[project.id] ?? 0]}
                       alt={project.title}
-                      initial={{ opacity: 0, y: 20 ,scale:1.03}}
+                      initial={{ opacity: 0, y: 20, scale: 1.03 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.3 }}
@@ -288,7 +288,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               </button>
 
               {/* Carousel */}
-              <div className="relative h-[35vh] w-full overflow-hidden">
+              <div className="relative w-full overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentImageIndex}
@@ -298,10 +298,25 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute w-full h-full object-cover "
+                    className="w-full h-auto object-contain scale-50"
                     draggable={false}
                   />
                 </AnimatePresence>
+                {/*
+                <AnimatePresence mode="wait">
+                    <motion.img
+                      key={imageIndices[project.id] ?? 0}
+                      src={project.images[imageIndices[project.id] ?? 0]}
+                      alt={project.title}
+                      initial={{ opacity: 0, y: 20 ,scale:1.03}}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full h-auto object-contain scale-50"
+                      draggable={false}
+                    />
+                  </AnimatePresence>
+                   */}
 
                 {/* Carousel Controls */}
                 {selectedProject.images.length > 1 && (

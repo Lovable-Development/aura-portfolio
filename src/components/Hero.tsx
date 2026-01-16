@@ -3,6 +3,7 @@ import Parallax from "./Parallax";
 import { useSound } from "@/hooks/use-sound";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { Undo } from "lucide-react";
 
 const floatingSymbols = [
   { symbol: "{", x: "10%", y: "15%", delay: 0, size: "text-4xl" },
@@ -57,7 +58,27 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <Parallax />
+          {/* <div className="group absolute inset-x-0 top-0 left-[20rem] flex items-center gap-2 text-muted-foreground cursor-pointer">
+            <Undo className="-rotate-[40deg]  " />
+            <span className="rotate-[15deg] translate-y-2 ">Hover Me</span>
+          </div> */}
+          {/* Hover hint */}
+          {/* Parallax wrapper */}
+          <div className="relative inline-block">
+            <Parallax />
+            <motion.div
+              className="group absolute -right-8 top-0 flex items-center gap-2 text-muted-foreground cursor-pointer"
+              animate={{ y: [-3, 3, -3] }}
+              transition={{
+                duration: 1.5,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            >
+              <Undo className="-rotate-[40deg] " />
+              <span className="rotate-[15deg] ">Hover Me</span>
+            </motion.div>
+          </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

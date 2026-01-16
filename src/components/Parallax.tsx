@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { CSSProperties } from "react";
+import itsme from "../../public/images/itsme.png";
 
 type Offset = {
   x: number;
@@ -15,7 +16,26 @@ const wrapperStyle: CSSProperties = {
   position: "relative",
   width: "300px",
   height: "300px",
+  perspective: "1000px",
 };
+
+const flipContainerStyle: CSSProperties = {
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  transformStyle: "preserve-3d",
+  transition: "transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1)",
+};
+
+const faceStyle: CSSProperties = {
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  top: 0,
+  left: 0,
+  backfaceVisibility: "hidden",
+};
+
 const svgStyle: CSSProperties = {
   position: "absolute",
   top: 0,
@@ -28,6 +48,8 @@ const svgStyle: CSSProperties = {
 const Parallax: React.FC = () => {
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [hovered, setHovered] = useState(false);
+
   // const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   const [blink, setBlink] = useState(false);
@@ -83,27 +105,27 @@ const Parallax: React.FC = () => {
     };
   }, [isMobile]);
 
-  // const requestPermission = async () => {
-  //   if (
-  //     typeof DeviceOrientationEvent !== "undefined" &&
-  //     typeof (DeviceOrientationEvent as any).requestPermission === "function"
-  //   ) {
-  //     const permission = await (
-  //       DeviceOrientationEvent as any
-  //     ).requestPermission();
-  //     if (permission === "granted") setHasPermission(true);
-  //   } else {
-  //     setHasPermission(true); // Non-iOS devices
-  //   }
-  // };
-
   return (
-    <div>
-      <div style={wrapperStyle}>
+    <div
+      style={wrapperStyle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        style={{
+          ...flipContainerStyle,
+          transform: hovered ? "rotateY(180deg)" : "rotateY(0deg)",
+        }}
+      >
         {/* HEAD LAYER (Base) */}
         <svg
           style={{
-            ...svgStyle,
+            ...faceStyle,
+            shapeRendering: "geometricPrecision",
+            textRendering: "geometricPrecision",
+            imageRendering: "auto",
+            vectorEffect: "non-scaling-stroke",
+            // transition: "opacity 0.4s ease",
             // transform: `translate(${-offset.x * 5}px, ${-offset.y * 5}px)`,
           }}
           version="1.1"
@@ -125,8 +147,13 @@ const Parallax: React.FC = () => {
 
         <svg
           style={{
-            ...svgStyle,
+            ...faceStyle,
+            shapeRendering: "geometricPrecision",
+            textRendering: "geometricPrecision",
+            imageRendering: "auto",
+            vectorEffect: "non-scaling-stroke",
             transform: `translate(${offset.x * 7}px, ${offset.y * 7}px)`,
+            transition: "opacity 0.4s ease",
           }}
           version="1.1"
           id="Layer_1"
@@ -165,6 +192,24 @@ const Parallax: React.FC = () => {
             />
           </g>
         </svg>
+        <img
+          src={itsme}
+          alt="me"
+          style={{
+            ...faceStyle,
+            shapeRendering: "geometricPrecision",
+            textRendering: "geometricPrecision",
+            imageRendering: "auto",
+            vectorEffect: "non-scaling-stroke",
+            transform: `rotateY(180deg) translate(${offset.x * 6}px, ${
+              offset.y * 6
+            }px)`,
+            borderRadius: "50%",
+            border: "5px solid #3d3d3d",
+            objectFit: "cover",
+            pointerEvents: "none",
+          }}
+        />
       </div>
     </div>
   );

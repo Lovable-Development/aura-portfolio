@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Matter from "matter-js";
 import { motion } from "framer-motion";
+import { Redo } from "lucide-react";
 
 const skills = [
   {
@@ -377,10 +378,23 @@ const GravitySkills = () => {
               </div>
             );
           })}
+          {/* Drag Me */}
+          {/* <motion.div
+            // className="group absolute left-20 inset-0 flex items-center gap-2 text-muted-foreground cursor-pointer"
+            // animate={{ y: [-3, 3, -3] }}
+            // transition={{
+            //   duration: 1.5,
+            //   ease: "easeInOut",
+            //   repeat: Infinity,
+            // }}
+          >
+            <span className="-rotate-[15deg] translate-y-2">Drag Me</span>
+            <Redo className="rotate-[40deg] " />
+          </motion.div> */}
         </div>
 
         {/* Skill Labels */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4">
+        <div className="absolute -bottom-4 lg:bottom-4 left-0 right-0 flex justify-center flex-wrap gap-2 px-4">
           {skills.map((skill, index) => (
             <span
               key={index}
