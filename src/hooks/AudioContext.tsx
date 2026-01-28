@@ -10,7 +10,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     if (!audioRef.current) {
       audioRef.current = new Audio("/audio/space.mp3");
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.15;
+      audioRef.current.volume = 0.50;
     }
   };
 

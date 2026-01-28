@@ -12,76 +12,70 @@ const skills = [
   },
 
   {
-    name: "React",
-    icon: "⚛️",
-    bg: "bg-cyan-100 border-cyan-300",
-    text: "text-black",
+    name: "ReactJS",
+    icon: "⬢",
+    bg: "bg-[#01b8d8] border-cyan-300",
+    text: "text-white",
   },
   {
     name: "TypeScript",
     icon: "TS",
-    bg: "bg-blue-100 border-blue-300",
-    text: "text-neutral-900 text-shadow-lg",
+    bg: "bg-[#084773] border-blue-300",
+    text: "text-white text-shadow-lg",
   },
   {
     name: "JavaScript",
     icon: "JS",
-    bg: "bg-yellow-100 border-yellow-300",
-    text: "text-yellow-700",
+    bg: "bg-[#f7e024] border-yellow-300",
+    text: "text-black",
   },
   {
     name: "NodeJS",
     icon: "⬢",
-    bg: "bg-green-100 border-green-300",
-    text: "text-green-700",
+    bg: "bg-[#1e4f1e] border-green-300",
+    text: "text-white",
   },
   {
     name: "Python",
-    icon: "🐍",
-    bg: "bg-blue-50 border-blue-300",
-    text: "text-blue-700",
+    icon: "⬢",
+    bg: "bg-[#ffad34]",
+    text: "text-[#3d3d3d]",
   },
   {
     name: "PostgreSQL",
     icon: "🐘",
-    bg: "bg-indigo-100 border-indigo-300",
-    text: "text-indigo-700",
+    bg: "bg-[#396b94] border-indigo-300",
+    text: "text-white",
   },
   {
     name: "SQL",
     icon: "◈",
-    bg: "bg-pink-100 border-pink-300",
-    text: "text-pink-700",
+    bg: "bg-[#082f47] border-pink-300",
+    text: "text-[#88dff9]",
   },
   {
-    name: "Git",
+    name: "Git/GitHub",
     icon: "⎇",
-    bg: "bg-orange-100 border-orange-300",
-    text: "text-orange-700",
-  },
-  {
-    name: "Tailwind CSS",
-    icon: "💨",
-    bg: "bg-sky-100 border-sky-300",
-    text: "text-sky-700",
+    bg: "bg-[#f05639] ",
+    text: "text-[#46360c]",
   },
   {
     name: "AI",
-    icon: "🤖",
-    bg: "bg-purple-100 border-purple-300",
-    text: "text-purple-700",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d] ",
+    text: "text-white",
   },
   {
     name: "Automation",
-    icon: "⚙️",
-    bg: "bg-amber-100 border-amber-300",
+    icon: "⬢",
+    bg: "bg-amber-200 border-amber-300",
     text: "text-amber-700",
   },
   {
     name: "Blender",
-    icon: "",
+    icon: "⬢",
     bg: "bg-[#e88114]",
-    text: "text-[#255686]",
+    text: "text-white ",
   },
 ];
 
@@ -372,25 +366,25 @@ const GravitySkills = () => {
                 }}
               >
                 <span className="text-sm">{skill.icon}</span>
-                <span className="text-lg font-bold whitespace-nowrap text-shadow-lg/30">
+                <span className="text-lg font-black whitespace-nowrap text-shadow-lg/30">
                   {skill.name}
                 </span>
               </div>
             );
           })}
           {/* Drag Me */}
-          {/* <motion.div
-            // className="group absolute left-20 inset-0 flex items-center gap-2 text-muted-foreground cursor-pointer"
-            // animate={{ y: [-3, 3, -3] }}
-            // transition={{
-            //   duration: 1.5,
-            //   ease: "easeInOut",
-            //   repeat: Infinity,
-            // }}
-          >
-            <span className="-rotate-[15deg] translate-y-2">Drag Me</span>
-            <Redo className="rotate-[40deg] " />
-          </motion.div> */}
+            {/* <motion.div
+              // className="group absolute left-20 inset-0 flex items-center gap-2 text-muted-foreground cursor-pointer"
+              // animate={{ y: [-3, 3, -3] }}
+              // transition={{
+              //   duration: 1.5,
+              //   ease: "easeInOut",
+              //   repeat: Infinity,
+              // }}
+            >
+              <span className="-rotate-[15deg] translate-y-2">Drag Me</span>
+              <Redo className="rotate-[40deg] " />
+            </motion.div> */}
         </div>
 
         {/* Skill Labels */}

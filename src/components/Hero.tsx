@@ -53,7 +53,7 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
         <motion.div
-          className="mt-3 flex items-center justify-center gap-6"
+          className="my-3 flex items-center justify-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
@@ -96,32 +96,14 @@ const Hero = () => {
           </p>
         </motion.div>
 
-        {/* <motion.h1
+        <motion.h1
           className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
           Sachin Gupta
-        </motion.h1> */}
-        <motion.div className="flex justify-center overflow-hidden">
-          {"Sachin Gupta".split("").map((letter, i) => (
-            <motion.h1
-              key={i}
-              className="inline-block text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-foreground"
-              initial={{ y: 60, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                duration: 0.5,
-                delay: i * 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              {letter === " " ? "\u00A0" : letter}
-            </motion.h1>
-          ))}
-        </motion.div>
-
+        </motion.h1>
         <motion.p
           className="mt-8 text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"
           initial={{ opacity: 0, y: 30 }}

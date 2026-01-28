@@ -9,7 +9,7 @@ export const useSound = () => {
   );
 
   hoverSound.current.volume = 1.0;
-  clickSound.current.volume = 0.1;
+  clickSound.current.volume = 0.2;
 
   const playHover = () => {
     hoverSound.current.currentTime = 0;

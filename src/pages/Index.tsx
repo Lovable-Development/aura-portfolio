@@ -17,12 +17,17 @@ const Index = () => {
 
   useEffect(() => {
     const mq = window.matchMedia("(pointer: fine)");
+    const disableRightClick = (e: { preventDefault: () => any; }) => e.preventDefault();
+    document.addEventListener("contextmenu", disableRightClick);
     setShowCursor(mq.matches);
 
     const handleChange = (e: MediaQueryListEvent) => setShowCursor(e.matches);
 
     mq.addEventListener("change", handleChange);
-    return () => mq.removeEventListener("change", handleChange);
+    return () => {
+      mq.removeEventListener("change", handleChange),
+      document.removeEventListener("contextmenu", disableRightClick);
+    };
   }, []);
 
   return (
@@ -31,7 +36,7 @@ const Index = () => {
 
       <main className="relative min-h-screen bg-background">
         {/* Grid Background */}
-        <div className="absolute inset-0 grid-background opacity-80" />
+        <div className="absolute inset-0 grid-background opacity-100" />
         {isLoading ? (
           <Preloader onComplete={() => setIsLoading(false)} />
         ) : (
