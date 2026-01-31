@@ -110,7 +110,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) =>
-        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1,
       );
     }, 3000);
 
@@ -120,7 +120,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
   const nextImage = () => {
     if (selectedProject) {
       setCurrentImageIndex((prev) =>
-        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1,
       );
     }
   };
@@ -128,7 +128,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
   const prevImage = () => {
     if (selectedProject) {
       setCurrentImageIndex((prev) =>
-        prev === 0 ? selectedProject.images.length - 1 : prev - 1
+        prev === 0 ? selectedProject.images.length - 1 : prev - 1,
       );
     }
   };
@@ -188,20 +188,28 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
             >
               <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border hover-lift">
                 {/* Project Image */}
-                <div className="relative w-full overflow-hidden">
+                <div
+                  className="relative w-full aspect-[16/9] overflow-hidden
+                bg-muted flex items-center justify-center"
+                >
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={imageIndices[project.id] ?? 0}
                       src={project.images[imageIndices[project.id] ?? 0]}
-                      alt={project.title}
-                      initial={{ opacity: 0, y: 20, scale: 1.03 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      // alt={project.title}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-auto object-contain scale-50"
+                      className="absolute inset-0 w-full h-full object-contain scale-[1.08]"
                       draggable={false}
                     />
                   </AnimatePresence>
+
+                  {/* Passive visual hint (no logic) */}
+                  <div className="text-muted-foreground/60 text-sm">
+                    Loading Preview...
+                  </div>
 
                   {/* Dots */}
                   {project.images.length > 1 && (
@@ -288,35 +296,28 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               </button>
 
               {/* Carousel */}
-              <div className="relative w-full overflow-hidden">
+              <div
+                className="relative w-full aspect-[16/9] overflow-hidden
+                bg-muted flex items-center justify-center"
+              >
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentImageIndex}
                     src={selectedProject.images[currentImageIndex]}
-                    alt={selectedProject.title}
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
+                    // alt={project.title}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-full h-auto object-contain scale-50"
+                    className="absolute inset-0 w-full h-full object-contain scale-[1.08]"
                     draggable={false}
                   />
                 </AnimatePresence>
-                {/*
-                <AnimatePresence mode="wait">
-                    <motion.img
-                      key={imageIndices[project.id] ?? 0}
-                      src={project.images[imageIndices[project.id] ?? 0]}
-                      alt={project.title}
-                      initial={{ opacity: 0, y: 20 ,scale:1.03}}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-full h-auto object-contain scale-50"
-                      draggable={false}
-                    />
-                  </AnimatePresence>
-                   */}
+
+                {/* Passive visual hint (no logic) */}
+                <div className="text-muted-foreground/60 text-sm">
+                  Loading Preview...
+                </div>
 
                 {/* Carousel Controls */}
                 {selectedProject.images.length > 1 && (

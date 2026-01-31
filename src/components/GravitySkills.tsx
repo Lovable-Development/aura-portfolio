@@ -346,9 +346,23 @@ const GravitySkills = () => {
 
         <div
           ref={containerRef}
-          className="relative w-full h-[500px] rounded-3xl bg-gray-200/30 border border-border overflow-hidden"
+          className="relative w-full h-[500px] rounded-3xl bg-gray-200/30 border border-muted-foreground overflow-hidden"
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
+
+          {/* Drag Me */}
+            <motion.div
+              className="group absolute left-20 inset-0 flex items-center gap-2 text-muted-foreground pointer-events-none"
+              animate={{ y: [-3, 3, -3] }}
+              transition={{
+                duration: 1.5,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            >
+              <span className="-rotate-[15deg] translate-y-2">Drag Me</span>
+              <Redo className="rotate-[40deg] " />
+            </motion.div>
 
           {skillPositions.map((pos) => {
             const skill = skills[pos.id];
@@ -356,7 +370,7 @@ const GravitySkills = () => {
             return (
               <div
                 key={pos.id}
-                className={`absolute flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md shadow-sm pointer-events-none select-none ${skill.bg} ${skill.text}`}
+                className={`absolute flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md shadow-sm  borde-black pointer-events-none select-none ${skill.bg} ${skill.text}`}
                 style={{
                   width: pos.width,
                   height: pos.height,
@@ -372,19 +386,6 @@ const GravitySkills = () => {
               </div>
             );
           })}
-          {/* Drag Me */}
-            {/* <motion.div
-              // className="group absolute left-20 inset-0 flex items-center gap-2 text-muted-foreground cursor-pointer"
-              // animate={{ y: [-3, 3, -3] }}
-              // transition={{
-              //   duration: 1.5,
-              //   ease: "easeInOut",
-              //   repeat: Infinity,
-              // }}
-            >
-              <span className="-rotate-[15deg] translate-y-2">Drag Me</span>
-              <Redo className="rotate-[40deg] " />
-            </motion.div> */}
         </div>
 
         {/* Skill Labels */}

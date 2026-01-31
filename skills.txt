@@ -1,0 +1,154 @@
+const skills = [
+  {
+    name: "NextJS",
+    icon: "▲",
+    bg: "bg-neutral-900",
+    text: "text-white",
+  },
+
+  {
+    name: "ReactJS",
+    icon: "⬢",
+    bg: "bg-[#01b8d8] border-cyan-300",
+    text: "text-white",
+  },
+  {
+    name: "TypeScript",
+    icon: "TS",
+    bg: "bg-[#084773] border-blue-300",
+    text: "text-white text-shadow-lg",
+  },
+  {
+    name: "JavaScript",
+    icon: "JS",
+    bg: "bg-[#f7e024] border-yellow-300",
+    text: "text-black",
+  },
+  {
+    name: "NodeJS",
+    icon: "⬢",
+    bg: "bg-[#1e4f1e] border-green-300",
+    text: "text-white",
+  },
+  {
+    name: "Python",
+    icon: "⬢",
+    bg: "bg-[#ffad34]",
+    text: "text-[#3d3d3d]",
+  },
+  {
+    name: "PostgreSQL",
+    icon: "🐘",
+    bg: "bg-[#396b94] border-indigo-300",
+    text: "text-white",
+  },
+  {
+    name: "SQL",
+    icon: "◈",
+    bg: "bg-[#082f47] border-pink-300",
+    text: "text-[#88dff9]",
+  },
+  {
+    name: "Git/GitHub",
+    icon: "⎇",
+    bg: "bg-[#f05639] ",
+    text: "text-[#46360c]",
+  },
+  {
+    name: "AI",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d] ",
+    text: "text-white",
+  },
+  {
+    name: "Automation",
+    icon: "⬢",
+    bg: "bg-amber-200 border-amber-300",
+    text: "text-amber-700",
+  },
+  {
+    name: "Blender",
+    icon: "⬢",
+    bg: "bg-[#e88114]",
+    text: "text-white ",
+  },
+];
+
+
+
+
+const skills = [
+  {
+    name: "NextJS",
+    icon: "▲",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+
+  {
+    name: "ReactJS",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "TypeScript",
+    icon: "TS",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "JavaScript",
+    icon: "JS",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "NodeJS",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "Python",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "PostgreSQL",
+    icon: "🐘",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "SQL",
+    icon: "◈",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "Git/GitHub",
+    icon: "⎇",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "AI",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "Automation",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+  {
+    name: "Blender",
+    icon: "⬢",
+    bg: "bg-[#3d3d3d]",
+    text: "text-[#f2f2f2]",
+  },
+];
