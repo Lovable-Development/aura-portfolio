@@ -131,7 +131,7 @@ const Hero = () => {
           <BorderBeam duration={8} size={100} />
           <a
             href="#contact"
-            className="ml-6 px-8 py-3 border border-border rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"
+            className="ml-6 px-8 py-3 border border-muted-foreground rounded-full text-sm font-medium text-foreground hover-lift hover:bg-secondary hover:shadow-lg"
             onMouseEnter={playHover}
             onClick={playClick}
           >

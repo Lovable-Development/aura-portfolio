@@ -300,7 +300,7 @@ const GitHubCompare = () => {
               value={visitorUsername}
               onChange={(e) => setVisitorUsername(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCompare()}
-              className="w-full pl-11 pr-4 py-4 bg-card border border-border rounded-full text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              className="w-full pl-11 pr-4 py-4 bg-card border border-muted-foreground rounded-full text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
             />
           </div>
           <button

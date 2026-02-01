@@ -53,7 +53,7 @@ const Experience = () => {
                 <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
                   <motion.div
                     whileHover={{ y: -4 }}
-                    className="glass-panel  rounded-2xl bg-secondary border border-border p-6 hover:shadow-lg transition-all duration-300"
+                    className="glass-panel  rounded-2xl bg-secondary border border-muted-foreground p-6 hover:shadow-lg transition-all duration-300"
                   >
                     {/* Duration badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-xs font-medium text-foreground mb-4">

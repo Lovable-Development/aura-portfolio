@@ -90,7 +90,7 @@ const Navigation = () => {
         transition={{ delay: 0.8, duration: 0.5 }}
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
       >
-        <div className="glass-panel px-2 py-2 rounded-full shadow-soft border-2">
+        <div className="glass-panel px-2 py-2 rounded-full shadow-soft border border-muted-foreground">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
@@ -98,7 +98,7 @@ const Navigation = () => {
                 <li key={item.id}>
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                       isActive
                         ? "text-primary-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -127,7 +127,7 @@ const Navigation = () => {
             <li>
               <button
                 onClick={() => setIsResumeOpen(true)}
-                className="relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
+                className="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
               >
                 <FileText className="relative z-10 w-5 h-5" />
                 <span className="hidden sm:inline">Resume</span>
@@ -137,7 +137,7 @@ const Navigation = () => {
             <li>
               <button
                 onClick={toggleSound}
-                className="relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
+                className="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-primary/10"
               >
                 {isPlaying ? (
                   <Volume2 className="relative z-10 w-5 h-5" />

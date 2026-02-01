@@ -185,7 +185,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                   placeholder="Your name"
                 />
               </div>
@@ -204,7 +204,7 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                   placeholder="your@email.com"
                 />
               </div>
@@ -223,7 +223,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-ring transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>

@@ -186,7 +186,7 @@ const Projects = ({ onModalChange }: ProjectsProps) => {
               onClick={() => setSelectedProject(project)}
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-2xl bg-secondary border border-border hover-lift">
+              <div className="relative overflow-hidden rounded-2xl bg-secondary border border-muted-foreground hover-lift">
                 {/* Project Image */}
                 <div
                   className="relative w-full aspect-[16/9] overflow-hidden

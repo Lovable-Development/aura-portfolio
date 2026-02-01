@@ -41,12 +41,12 @@ const Index = () => {
           <Preloader onComplete={() => setIsLoading(false)} />
         ) : (
           <>
-            {/* <Hero /> */}
-            {/* <GravitySkills /> */}
-            {/* <GitHubCompare /> */}
-            {/* <Experience /> */}
+            <Hero />
+            <GravitySkills />
+            <GitHubCompare />
+            <Experience />
             <Projects onModalChange={setIsProjectModalOpen} />
-            {/* <Contact /> */}
+            <Contact />
             {!isProjectModalOpen && <Navigation />}
           </>
         )}
